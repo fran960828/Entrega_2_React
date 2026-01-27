@@ -1,0 +1,31 @@
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  z-index: 150; /* Asegura que esté por encima del menú móvil */
+}
+
+.logoWrapper:hover {
+  transform: scale(1.05);
+}
+
+.logoImage {
+  height: 48px; /* Altura estándar profesional */
+  width: 48px;
+  object-fit: contain;
+  /* Efecto de resplandor suave para que resalte sobre el fondo oscuro */
+  filter: drop-shadow(0 0 8px rgba(151, 206, 76, 0.2));
+  transition: filter 0.3s ease;
+}
+
+.logoWrapper:hover .logoImage {
+  filter: drop-shadow(0 0 12px rgba(151, 206, 76, 0.5));
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 640px) {
+  .logoImage {
+    height: 38px;
+  }
+}

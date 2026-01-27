@@ -1,0 +1,113 @@
+.filterBar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.searchGroup {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #97ce4c;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(151, 206, 76, 0.2);
+  border-radius: 0.75rem;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  color: #fff;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #97ce4c;
+  background: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 15px rgba(151, 206, 76, 0.15);
+}
+
+.selectsWrapper {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.selectGroup {
+  flex: 1;
+}
+
+.select {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.8rem;
+  color: #d1d5db;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none; /* Quitamos la flecha nativa */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2397ce4c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+}
+
+.select:hover {
+  border-color: rgba(151, 206, 76, 0.4);
+}
+
+.select:focus {
+  outline: none;
+  border-color: #97ce4c;
+}
+
+/* --- RESPONSIVIDAD --- */
+
+/* Tablet (768px) en adelante: Los filtros se ponen en una sola línea */
+@media (min-width: 768px) {
+  .filterBar {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .searchGroup {
+    flex: 2; /* El buscador ocupa más espacio */
+  }
+
+  .selectsWrapper {
+    flex: 3;
+    justify-content: flex-end;
+  }
+
+  .selectGroup {
+    max-width: 200px;
+  }
+}
+
+/* Desktop (1024px) */
+@media (min-width: 1024px) {
+  .filterBar {
+    padding: 1rem 2rem;
+  }
+}

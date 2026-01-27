@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding-top: 5%;
+  
+}
+.filter {
+  padding-top: 2%;
+}
+
+.grid {
+  display: grid;
+  gap: 1.5rem;
+  /* Mobile: 1 columna */
+  grid-auto-rows:1fr;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+/* Tablet: 2 columnas (768px) */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
+
+/* Desktop: 4 columnas (1024px) */
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Pantallas Extra Grandes: 5 columnas (1500px+) */
+@media (min-width: 1536px) {
+  .grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}

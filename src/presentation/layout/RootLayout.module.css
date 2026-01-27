@@ -1,0 +1,50 @@
+.appContainer {
+  min-height: 100vh;
+  min-width: 100vw;
+  background: radial-gradient(circle at top, #1a1a1a 0%, #050505 100%);
+  background-color: #050505;
+  color: #ffffff;
+  font-family: sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* El toque de Master: Personalizar el color de selección de texto */
+.appContainer :global(::selection) {
+  background-color: #97ce4c;
+  color: #000000;
+}
+
+.mainContent {
+  margin-bottom: 3.5rem; /* mb-14 */
+  padding-top: 7rem;    /* pt-28 */
+  padding-bottom: 2.5rem; /* pb-10 */
+  padding-left: 2rem;  /* px-6 */
+  padding-right: 2rem;
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.5s ease-in-out;
+}
+
+
+@media (min-width: 1024px) {
+  .mainContent {
+    padding: 5rem;  
+    padding: 1rem clamp(2rem, 10vw, 8rem);
+  }
+}
+
+/* Decoración ambiental (el brillo verde sutil en el fondo) */
+.ambientGlow {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 500px;
+  height: 500px;
+  background: rgba(151, 206, 76, 0.05);
+  filter: blur(120px);
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+}
