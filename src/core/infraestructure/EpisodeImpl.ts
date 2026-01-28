@@ -20,7 +20,7 @@ export const getEpisodeImpl: GetEpisodeRepository = {
       const params = new URLSearchParams();
       params.append('page', page.toString());
       ;
-      const url = `${urls.characters}/?${params.toString()}`;
+      const url = `${urls.episodes}/?${params.toString()}`;
       return await httpClient.get<Pagination<Episode>>(url);
   },
 };

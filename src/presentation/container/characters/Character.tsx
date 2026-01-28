@@ -45,7 +45,6 @@ export const Character = () => {
 
   const handlePageChange = (newPage: number) => {
     setFilters(prev => ({ ...prev, page: newPage }));
-    // Opcional: Hacer scroll hacia arriba al cambiar de página
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
     

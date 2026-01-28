@@ -27,7 +27,7 @@ export const getSomeLocations =
   };
 
 export const getAllLocations =
-  (GetLocationRepository: GetLocationRepository) => async (page?:number) => {
+  (GetLocationRepository: GetLocationRepository) => async (page:number) => {
     return GetLocationRepository.getAllLocations(page);
   };
 

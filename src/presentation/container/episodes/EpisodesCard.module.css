@@ -1,0 +1,158 @@
+.card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  background: rgba(151, 206, 76, 0.05);
+  border-color: #97ce4c;
+  transform: translateX(10px); /* Efecto de desplazamiento lateral */
+}
+
+.episodeCode {
+  background: #97ce4c;
+  color: #000;
+  font-weight: 800;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.2rem;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(151, 206, 76, 0.3);
+}
+
+.mainInfo {
+  flex-grow: 1;
+}
+
+.title {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.airDate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.arrow {
+  color: #97ce4c;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.card:hover .arrow {
+  opacity: 1;
+  transform: translateX(5px);
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem; /* Espacio entre el placeholder del modal y el corazón */
+  margin-left: auto; /* Empuja las acciones a la derecha en formato lista */
+}
+
+/* Placeholder para el futuro botón del modal */
+.modalPlaceholder {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px dashed rgba(151, 206, 76, 0.3);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  cursor: default;
+}
+
+.favBtn {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.favBtn:hover {
+  transform: scale(1.2);
+  background: rgba(151, 206, 76, 0.1);
+}
+
+/* Efecto cuando el corazón está activo (favorito) */
+.favBtn svg {
+  transition: all 0.3s ease;
+}
+
+/* Animación de "latido" al marcarlo */
+.favBtn:active {
+  transform: scale(0.9);
+}
+
+/* Estilos para el icono dentro del botón según el estado */
+.heartFilled {
+  fill: #97ce4c; /* Verde Rick */
+  color: #97ce4c;
+  filter: drop-shadow(0 0 5px rgba(151, 206, 76, 0.5));
+}
+
+.heartEmpty {
+  color: #6b7280;
+}
+
+.castBtn {
+  background: rgba(151, 206, 76, 0.05); /* Fondo verde muy tenue */
+  border: 1px solid rgba(151, 206, 76, 0.3); /* Borde semi-transparente */
+  color: #97ce4c; /* Texto verde Rick */
+  padding: 0.5rem 1.2rem;
+  border-radius: 2rem; /* Forma de píldora */
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.castBtn:hover {
+  background: #97ce4c; /* Se llena de color al hover */
+  color: #0c111d; /* Texto oscuro para contraste */
+  border-color: #97ce4c;
+  box-shadow: 0 0 15px rgba(151, 206, 76, 0.4); /* Resplandor */
+  transform: translateY(-2px);
+}
+
+.castBtn:active {
+  transform: translateY(0);
+}
+/* Responsive */
+@media (max-width: 640px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+

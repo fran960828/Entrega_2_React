@@ -1,38 +1,16 @@
-import { useState, useEffect } from "react";
+
 import { Link } from "react-router-dom";
 import { Heart } from "lucide-react"; // Recuerda tener instalada lucide-react
 import type { Character } from "../../../core/domain/characters";
 import classes from "./CharacterCard.module.css";
+import { useFavorites } from "../../hooks/useFavorites";
 
 interface CharacterCardProps {
   character: Character;
 }
 
 export const CharacterCard = ({ character }: CharacterCardProps) => {
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  // Lógica de favoritos (LocalStorage)
-  useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    setIsFavorite(favorites.some((favId: number) => favId === character.id));
-  }, [character.id]);
-
-  const toggleFavorite = (e: React.MouseEvent) => {
-    e.preventDefault(); // Evita que el Link navegue al pulsar el corazón
-    e.stopPropagation();
-
-    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-    let newFavorites;
-
-    if (isFavorite) {
-      newFavorites = favorites.filter((favId: number) => favId !== character.id);
-    } else {
-      newFavorites = [...favorites, character.id];
-    }
-
-    localStorage.setItem("favorites", JSON.stringify(newFavorites));
-    setIsFavorite(!isFavorite);
-  };
+  const { isFavorite, toggleFavorite } = useFavorites("favCharacters", character.id);
 
   // Tu lógica original de estados (la mantengo intacta)
   let status: string;

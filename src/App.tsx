@@ -2,15 +2,20 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RootLayout } from "./presentation/layout/rootLayout";
 import  HomePage  from "./presentation/pages/HomePage";
 import CharactersPage from "./presentation/pages/CharactersPage";
+import ErrorPage from "./presentation/components/ErrorAlert";
 
 import { charactersLoader} from './loaders/loaders.character'
+import LocationsPage from "./presentation/pages/LocationsPage";
+import { locationsLoader } from "./loaders/loaders.location";
+import { EpisodesPage } from "./presentation/pages/EpisodesPage";
+import { episodesLoader } from "./loaders/loaders.episode";
 
 function App() {
   const route=createBrowserRouter([
     {
       path:'/',
       element:<RootLayout/>,
-      //errorElement:<ErrorPage/>,
+      errorElement:<ErrorPage/>,
       children:[
         {
           index:true,
@@ -22,18 +27,20 @@ function App() {
           loader:charactersLoader
         },
         {
-          path:'/characters:id',
+          path:'/characters/:id',
           //element:<CharacterDetail/>
             
           
         },
         {
           path:'/episodes',
-          //element:<Episodes/>
+          element:<EpisodesPage/>,
+          loader:episodesLoader
         },
         {
           path:'/locations',
-          //element:<Locations/>
+          element:<LocationsPage/>,
+          loader:locationsLoader
         },
         {
           path:'/favorites',

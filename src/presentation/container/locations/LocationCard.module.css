@@ -1,0 +1,91 @@
+.card {
+  height: 100%; /* Para que ocupe todo el espacio del grid */
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  color: inherit; /* Asegura que el texto dentro del Link no cambie de color */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #97ce4c;
+  box-shadow: 0 10px 30px rgba(151, 206, 76, 0.15);
+}
+
+.imagePlaceholder {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Formato más ancho para locaciones */
+  background: linear-gradient(to top, rgba(151, 206, 76, 0.1), rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 3rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.imagePlaceholder svg {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.info {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Permite que el contenido se estire para igualar altura */
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.name {
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.label {
+  color: #6b7280; /* text-gray-500 */
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.value {
+  color: #d1d5db; /* text-gray-300 */
+  font-size: 0.95rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+.residentSection {
+  margin-top: auto; /* Empuja los residentes al fondo */
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.noResidents {
+  font-size: 0.8rem;
+  color: #4b5563;
+  font-style: italic;
+  margin-top: 1rem;
+}
