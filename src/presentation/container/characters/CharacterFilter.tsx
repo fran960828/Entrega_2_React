@@ -11,7 +11,13 @@ import type { CharacterFilterProps } from "../../models/models";
 export function CharacterFilter({ onFilterChange, initialValues }: CharacterFilterProps) {
   const [searchTerm, setSearchTerm] = useState(initialValues.name || "");
 
-  /** * LÓGICA DE DEBOUNCING:
+  /** Gestión de cambios inmediatos en desplegables (Status / Species) */
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    onFilterChange({ [name]: value });
+  };
+
+ /** * LÓGICA DE DEBOUNCING:
    * Retrasa la ejecución de 'onFilterChange' 500ms tras la última pulsación.
    * Esto evita disparar una petición a la API por cada letra escrita.
    */
@@ -23,11 +29,6 @@ export function CharacterFilter({ onFilterChange, initialValues }: CharacterFilt
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 
-  /** Gestión de cambios inmediatos en desplegables (Status / Species) */
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    onFilterChange({ [name]: value });
-  };
 
   return (
     <div className={classes.filterBar}>

@@ -39,3 +39,50 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
+
+/** * ESTILOS: NoResults (Empty State)
+ * Se activa cuando la búsqueda no coincide con ningún personaje (API 404).
+ * Utiliza flexbox para centrar el contenido y mantener la armonía visual.
+ */
+
+.noResults {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(8px);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  color: #9ca3af; /* Gray 400 */
+  animation: fadeIn 0.5s ease-out;
+}
+
+.noResults p {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+/* Opcional: Si quieres añadir un color de acento al texto buscado */
+.noResults strong {
+  color: #97ce4c; /* El verde portal de la app */
+  font-weight: 700;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

@@ -21,22 +21,6 @@ export const Favorites = () => {
     favEpisodeIds: JSON.parse(localStorage.getItem("favEpisodes") || "[]").join(",")
   });
 
-  /** * ESCUCHA DE EVENTOS GLOBALES:
-   * Permite que la lista se actualice si el usuario modifica favoritos 
-   * desde cualquier otro componente de la aplicación.
-   */
-  useEffect(() => {
-    const handleSync = () => {
-      setLocalIds({
-        favCharIds: JSON.parse(localStorage.getItem("favCharacters") || "[]").join(","),
-        favEpisodeIds: JSON.parse(localStorage.getItem("favEpisodes") || "[]").join(",")
-      });
-    };
-
-    window.addEventListener("storage", handleSync);
-    return () => window.removeEventListener("storage", handleSync);
-  }, []);
-
   /** * FETCHING MASIVO: 
    * Las queries solo se ejecutan si existen IDs almacenados ('enabled').
    */
@@ -55,6 +39,22 @@ export const Favorites = () => {
   // Normalización de datos para asegurar el renderizado de listas
   const characters = Array.isArray(charData) ? charData : charData ? [charData] : [];
   const episodes = Array.isArray(episodeData) ? episodeData : episodeData ? [episodeData] : [];
+
+ /** * ESCUCHA DE EVENTOS GLOBALES:
+   * Permite que la lista se actualice si el usuario modifica favoritos 
+   * desde cualquier otro componente de la aplicación.
+   */
+  useEffect(() => {
+    const handleSync = () => {
+      setLocalIds({
+        favCharIds: JSON.parse(localStorage.getItem("favCharacters") || "[]").join(","),
+        favEpisodeIds: JSON.parse(localStorage.getItem("favEpisodes") || "[]").join(",")
+      });
+    };
+
+    window.addEventListener("storage", handleSync);
+    return () => window.removeEventListener("storage", handleSync);
+  }, []);
 
   // Estado de error/vacío: UX amigable para colecciones vacías
   if (characters.length === 0 && episodes.length === 0) {

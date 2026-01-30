@@ -11,11 +11,13 @@ const parseJson = async <T>(res: Response): Promise<T> => {
 export const httpClient = {
   get: async <T>(url: string): Promise<T> => {
     const res = await fetch(url);
-    if (!res.ok)
-      throw new Response(
-        JSON.stringify({ message: "Could not fetch data from the Citadel." }),
-        { status: 500 }
-      );
+    if (!res.ok) {
+      // 💡 PASAMOS EL STATUS REAL (si es 404, será 404)
+      throw {
+        status: res.status,
+        message: `Error from the Citadel: ${res.statusText}`,
+      };
+    }
     return parseJson<T>(res);
   },
 };

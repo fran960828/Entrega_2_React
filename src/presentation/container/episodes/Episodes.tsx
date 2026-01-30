@@ -21,7 +21,14 @@ export const Episodes = () => {
 
   const { data } = useEpisodes(filters);
 
-  /** * EFECTO DE SINCRONIZACIÓN:
+ 
+
+  const handlePageChange = (newPage: number) => {
+    setFilters(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Mejora de UX: scroll automático al inicio
+  };
+
+ /** * EFECTO DE SINCRONIZACIÓN:
    * Mantiene la URL actualizada con el estado local de paginación.
    * Utiliza 'replace: true' para no saturar el historial con cada cambio de página.
    */
@@ -37,10 +44,7 @@ export const Episodes = () => {
     }
   }, [filters]);
 
-  const handlePageChange = (newPage: number) => {
-    setFilters(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Mejora de UX: scroll automático al inicio
-  };
+
 
   if (!data || data.results.length === 0) return <p>No se encontraron dimensiones.</p>;
 

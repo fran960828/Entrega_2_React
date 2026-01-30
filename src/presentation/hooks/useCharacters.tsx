@@ -10,14 +10,15 @@ import { getAllCharactersUI } from "../../config/dependencies";
 
 export const useCharacters = (filters: Filters) => {
   return useQuery({
-    /** * El array de queryKey funciona como una "dependencia". 
-     * Si cualquier valor dentro de 'filters' cambia, useQuery dispara una nueva petición.
-     */
-    queryKey: ['characters', filters], 
-    
+    queryKey: ["characters", filters],
     queryFn: () => getAllCharactersUI(filters),
     
-    /** Optimización: Evita peticiones innecesarias si los datos tienen menos de 5 min */
-    staleTime: 1000 * 60 * 5, 
+    /** * ESTRATEGIA DE CACHÉ:
+     * 'staleTime': Evita que la app vuelva a pedir datos al servidor inmediatamente.
+     * Si el loader ya trajo los datos (o el objeto vacío), los consideramos 
+     * frescos por 5 minutos.
+     */
+    staleTime: 1000 * 60 * 5,
+
   });
 };

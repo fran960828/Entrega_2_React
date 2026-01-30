@@ -25,19 +25,7 @@ export const Character = () => {
     species: searchParams.get("species") || ""
   });
 
-  const {data} = useCharacters(filters);
-
-  
-  // Cada vez que 'filters' cambie (por el buscador o paginación), actualizamos la URL
-  useEffect(() => {
-    const params: Record<string, string> = {};
-    if (filters.page > 1) params.page = filters.page.toString();
-    if (filters.name) params.name = filters.name;
-    if (filters.status) params.status = filters.status;
-    if (filters.species) params.species = filters.species;
-    
-    setSearchParams(params, { replace: true }); // 'replace' evita llenar el historial de "atrás" con cada letra
-  }, [filters, setSearchParams]);
+  const {data, isError} = useCharacters(filters);
 
   const handleUpdateFilters = (newChanges: Partial<Filters>) => {
     setFilters((prev) => ({
@@ -51,10 +39,28 @@ export const Character = () => {
     setFilters(prev => ({ ...prev, page: newPage }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+ // Cada vez que 'filters' cambie (por el buscador o paginación), actualizamos la URL
+  useEffect(() => {
+    const params: Record<string, string> = {};
+    if (filters.page > 1) params.page = filters.page.toString();
+    if (filters.name) params.name = filters.name;
+    if (filters.status) params.status = filters.status;
+    if (filters.species) params.species = filters.species;
     
+    setSearchParams(params, { replace: true }); // 'replace' evita llenar el historial de "atrás" con cada letra
+  }, [filters, setSearchParams]);
+
+  const isResultsEmpty = isError || (data && data.results && data.results.length === 0)
   let content;
 
-  if (data){
+  if (isResultsEmpty){
+      content = (
+      <div className={classes.noResults}>
+        <p>No se encontraron personajes que coincidan con "{filters.name}"</p>
+      </div>
+    )
+  }else if (data){
     content=
     <div className={classes.grid}>    
         {data.results.map((i) => (
@@ -62,6 +68,8 @@ export const Character = () => {
         ))}
       </div>
   }
+
+  
   return (
     <section className={classes.container}>
       <div className={classes.filter}>

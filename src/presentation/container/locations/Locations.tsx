@@ -22,7 +22,12 @@ export const Locations = () => {
 
   const { data } = useLocations(filters);
 
-  /** * SINCRONIZACIÓN DE URL:
+  const handlePageChange = (newPage: number) => {
+    setFilters(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Feedback visual de cambio de sección
+  };
+
+    /** * SINCRONIZACIÓN DE URL:
    * Refleja el estado local en los parámetros de búsqueda del navegador.
    * 'replace: true' evita que cada cambio de página genere una nueva entrada
    * en el historial de navegación "atrás".
@@ -38,11 +43,6 @@ export const Locations = () => {
       setSearchParams(newParams, { replace: true });
     }
   }, [filters]);
-
-  const handlePageChange = (newPage: number) => {
-    setFilters(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Feedback visual de cambio de sección
-  };
 
   if (!data || data.results.length === 0) return <p>No se encontraron dimensiones.</p>;
 
