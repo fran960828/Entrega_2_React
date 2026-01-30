@@ -1,3 +1,8 @@
+/** * INFRASTRUCTURE: LocationModel Repository Implementation
+ * Implementación del contrato GetLocationRepository.
+ * Gestiona la construcción de URLs y la comunicación con el httpClient.
+ */
+
 import type { GetLocationRepository } from "../Application/ports";
 import type { LocationModel } from "../domain/location";
 import type { Pagination } from "../domain/pagination";
@@ -5,14 +10,6 @@ import { httpClient, urls } from "./api";
 
 
 export const getLocationImpl: GetLocationRepository = {
-  getLocation: async (id) => {
-    const dto = await httpClient.get<LocationModel>(`${urls.locations}/${id}`);
-    return dto;
-  },
-  getSomeLocations:async (ids) => {
-      const dto = await httpClient.get<LocationModel[]>(`${urls.locations}/${ids}`)
-      return dto;
-    },
   getAllLocations: async (page:number) => {
       const params = new URLSearchParams();
       params.append('page', page.toString());

@@ -1,3 +1,8 @@
+/** * USE CASES: Character, Location & Episode
+ * Orquestadores de lógica de negocio. 
+ * Inyectan los repositorios (Ports) para desacoplar la aplicación de la infraestructura.
+ */
+
 import type { Filters } from "../domain/pagination";
 import type { GetCharacterRepository, GetEpisodeRepository, GetLocationRepository } from "./ports";
 
@@ -16,24 +21,9 @@ export const getAllCharacter =
     return GetCharacterRepository.getAllCharacters(filters);
   };
 
-  export const getLocation =
-  (GetLocationRepository: GetLocationRepository) => async (id:number) => {
-    return GetLocationRepository.getLocation(id);
-  };
-
-export const getSomeLocations =
-  (GetLocationRepository: GetLocationRepository) => async (ids:number[]) => {
-    return GetLocationRepository.getSomeLocations(ids);
-  };
-
 export const getAllLocations =
   (GetLocationRepository: GetLocationRepository) => async (page:number) => {
     return GetLocationRepository.getAllLocations(page);
-  };
-
-    export const getEpisode =
-  (GetEpisodeRepository: GetEpisodeRepository) => async (id:number) => {
-    return GetEpisodeRepository.getEpisode(id);
   };
 
 export const getSomeEpisodes =

@@ -9,6 +9,9 @@ import LocationsPage from "./presentation/pages/LocationsPage";
 import { locationsLoader } from "./loaders/loaders.location";
 import { EpisodesPage } from "./presentation/pages/EpisodesPage";
 import { episodesLoader } from "./loaders/loaders.episode";
+import { CharacterDetailPage } from "./presentation/pages/CharactersDetailPage";
+import { characterIdLoader } from "./loaders/loaders.CharacterDetail";
+import { FavoritesPage } from "./presentation/pages/FavoritesPage";
 
 function App() {
   const route=createBrowserRouter([
@@ -28,7 +31,8 @@ function App() {
         },
         {
           path:'/characters/:id',
-          //element:<CharacterDetail/>
+          element:<CharacterDetailPage/>,
+          loader:characterIdLoader
             
           
         },
@@ -44,7 +48,7 @@ function App() {
         },
         {
           path:'/favorites',
-          //element:<Favorites/>
+          element:<FavoritesPage/>
         },
       ]
     }

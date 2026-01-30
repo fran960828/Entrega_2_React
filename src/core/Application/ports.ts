@@ -1,3 +1,8 @@
+/** * PORTS: Repositories
+ * Definición de contratos para el acceso a datos. 
+ * Actúan como puentes entre la lógica de negocio y la infraestructura (API).
+ */
+
 import type { Character } from "../domain/characters";
 import type { Episode } from "../domain/episodes";
 import type { LocationModel } from "../domain/location";
@@ -10,13 +15,10 @@ export interface GetCharacterRepository {
 }
 
 export interface GetLocationRepository {
-  getLocation: (id: number) => Promise<LocationModel>;
-  getSomeLocations:(ids:number[])=> Promise<LocationModel[]>;
   getAllLocations: (page:number) => Promise<Pagination<LocationModel>>;
 }
 
 export interface GetEpisodeRepository {
-  getEpisode: (id: number) => Promise<Episode>;
   getSomeEpisodes:(ids:number[])=> Promise<Episode[]>;
   getAllEpisodes: (page?:number) => Promise<Pagination<Episode>>;
 }

@@ -1,30 +1,34 @@
+/** * COMPONENT: CharacterCard
+ * Representación visual de un personaje.
+ * Integra la gestión de favoritos y estados vitales dinámicos.
+ * Utiliza composición de Link para navegación interna y Botones para acciones.
+ */
 
 import { Link } from "react-router-dom";
-import { Heart } from "lucide-react"; // Recuerda tener instalada lucide-react
-import type { Character } from "../../../core/domain/characters";
+import { Heart } from "lucide-react";
 import classes from "./CharacterCard.module.css";
 import { useFavorites } from "../../hooks/useFavorites";
-
-interface CharacterCardProps {
-  character: Character;
-}
+import type { CharacterCardProps } from "../../models/models";
 
 export const CharacterCard = ({ character }: CharacterCardProps) => {
+  /** Gestión de persistencia local mediante hook personalizado */
   const { isFavorite, toggleFavorite } = useFavorites("favCharacters", character.id);
 
-  // Tu lógica original de estados (la mantengo intacta)
-  let status: string;
+  /** * LÓGICA DE ESTADO VITAL:
+   * Mapeo de estilos CSS basado en el estado (Alive, Dead, Unknown) 
+   */
+  let statusClass: string;
   if (character.status === 'Alive') {
-    status = classes.alive;
+    statusClass = classes.alive;
   } else if (character.status === 'Dead') {
-    status = classes.dead;
+    statusClass = classes.dead;
   } else {
-    status = classes.unknown;
+    statusClass = classes.unknown;
   }
 
   return (
     <article className={classes.card}>
-      {/* Botón de Favorito */}
+      {/* Acción secundaria: Favoritos (Detiene propagación para no activar el Link) */}
       <button className={classes.favoriteBtn} onClick={toggleFavorite}>
         <Heart 
           size={18} 
@@ -32,19 +36,21 @@ export const CharacterCard = ({ character }: CharacterCardProps) => {
         />
       </button>
 
-      {/* Envolvemos el contenido en un Link */}
+      {/* Acción principal: Navegación al detalle del personaje */}
       <Link to={`/characters/${character.id}`} className={classes.cardLink}>
         <div className={classes.imageContainer}>
           <img src={character.image} alt={character.name} className={classes.image} />
         </div>
+        
         <div className={classes.info}>
           <div className={classes.statusContainer}>
-            <span className={`${classes.statusCircle} ${status}`}></span>
+            <span className={`${classes.statusCircle} ${statusClass}`}></span>
             <span>{`${character.status} - ${character.species}`}</span>
           </div>
+          
           <h3 className={classes.name}>{character.name}</h3>
           
-          <div>
+          <div className={classes.locationInfo}>
             <p className={classes.label}>Last known location:</p>
             <p className={classes.value}>{character.location.name}</p>
           </div>

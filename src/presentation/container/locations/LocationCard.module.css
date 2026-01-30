@@ -1,91 +1,108 @@
 .card {
-  height: 100%; /* Para que ocupe todo el espacio del grid */
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   overflow: hidden;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: inherit; /* Asegura que el texto dentro del Link no cambie de color */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  color: inherit;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   border-color: #97ce4c;
-  box-shadow: 0 10px 30px rgba(151, 206, 76, 0.15);
+  box-shadow: 0 15px 35px rgba(151, 206, 76, 0.2);
 }
 
-.imagePlaceholder {
+/* Contenedor de la ilustración */
+.imageContainer {
   width: 100%;
-  aspect-ratio: 16 / 9; /* Formato más ancho para locaciones */
-  background: linear-gradient(to top, rgba(151, 206, 76, 0.1), rgba(0, 0, 0, 0.5));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 3rem;
-  overflow: hidden;
+  aspect-ratio: 16 / 10;
   position: relative;
+  overflow: hidden;
+  background: #000;
 }
 
-.imagePlaceholder svg {
-  animation: pulse 2s infinite ease-in-out;
+/* Efecto de "Velo" sobre la imagen */
+.imageContainer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+}
+
+.locationImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.card:hover .locationImage {
+  transform: scale(1.1);
 }
 
 .info {
-  padding: 1.25rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Permite que el contenido se estire para igualar altura */
-  justify-content: space-between;
-  gap: 0.75rem;
+  flex-grow: 1;
+  gap: 1rem;
 }
 
 .name {
   color: #fff;
-  font-size: 1.35rem;
-  font-weight: 700;
+  font-size: 1.4rem;
+  font-weight: 800;
   margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
+/* Badge dinámico para el tipo */
+.typeTag {
+  display: inline-block;
+  background: rgba(151, 206, 76, 0.15);
+  color: #97ce4c;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.detailRow {
+  display: flex;
+  flex-direction: column;
+}
+
 .label {
-  color: #6b7280; /* text-gray-500 */
-  font-size: 0.8rem;
-  margin-top: 0.25rem;
+  color: #9ca3af;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.1rem;
 }
 
 .value {
-  color: #d1d5db; /* text-gray-300 */
-  font-size: 0.95rem;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.3;
-}
-
-@keyframes pulse {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  50% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(0.9); opacity: 0.6; }
+  color: #e5e7eb;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .residentSection {
-  margin-top: auto; /* Empuja los residentes al fondo */
-  padding: 0 1.5rem 1.5rem 1.5rem;
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
 }
 
 .noResidents {
-  font-size: 0.8rem;
-  color: #4b5563;
+  font-size: 0.85rem;
+  color: #6b7280;
   font-style: italic;
-  margin-top: 1rem;
 }

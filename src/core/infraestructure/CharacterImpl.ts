@@ -1,3 +1,9 @@
+/** * INFRASTRUCTURE: Character Repository Implementation
+ * Implementación del contrato GetCharacterRepository.
+ * Gestiona la construcción de URLs y la comunicación con el httpClient.
+ */
+
+
 import type { GetCharacterRepository } from "../Application/ports";
 import type { Character } from "../domain/characters";
 import type { Pagination } from "../domain/pagination";

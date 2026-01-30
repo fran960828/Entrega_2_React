@@ -1,0 +1,32 @@
+.logo {
+  width: 280px; /* Mobile */
+  margin: 0 auto;
+  filter: drop-shadow(0 0 30px rgba(151, 206, 76, 0.3));
+  display: block;
+}
+
+.subtitle {
+  margin-top: 1.5rem;
+  color: #9ca3af;
+  font-size: 1rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    width: 400px;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* Desktop (1024px) */
+@media (min-width: 1024px) {  
+  .logo {
+    width: 500px;
+  }
+}

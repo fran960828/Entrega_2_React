@@ -1,14 +1,24 @@
+/** * COMPONENT: ErrorPage
+ * Boundary de errores a nivel de ruta.
+ * Captura, categoriza y muestra fallos de navegación o de carga de datos (Loaders).
+ * Utiliza hooks de React Router para identificar el tipo de error (404, 503, 500).
+ */
+
 import { useRouteError, isRouteErrorResponse, Link } from "react-router-dom";
 import { AlertTriangle, Home } from "lucide-react";
 import classes from "./ErrorAlert.module.css";
 
-export default function ErrorPage (){
+export default function ErrorPage() {
   const error = useRouteError();
+  
+  // Configuración por defecto para errores inesperados (Fallback)
   let title = "Unexpected Error";
   let message = "Something went wrong in this dimension.";
   let code = "500";
 
-  // Verificamos si es un error de respuesta de React Router (como un 404)
+  /** * Lógica de categorización:
+   * Determina si el error es una respuesta controlada de la ruta (Response object)
+   */
   if (isRouteErrorResponse(error)) {
     if (error.status === 404) {
       code = "404";
@@ -33,8 +43,9 @@ export default function ErrorPage (){
         <h1 className={classes.title}>{title}</h1>
         <p className={classes.message}>{message}</p>
 
+        {/* Retorno seguro a la ruta raíz */}
         <Link to="/" className={classes.backButton}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div  className="flex items-center gap-2">
             <Home size={18} />
             Back to Earth C-137
           </div>

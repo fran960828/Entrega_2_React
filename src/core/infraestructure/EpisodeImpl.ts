@@ -1,3 +1,10 @@
+/** * INFRASTRUCTURE: Episode Repository Implementation
+ * Implementación del contrato GetEpisodeRepository.
+ * Gestiona la construcción de URLs y la comunicación con el httpClient.
+ */
+
+
+
 import type { GetEpisodeRepository } from "../Application/ports";
 import type { Episode } from "../domain/episodes";
 import type { Pagination } from "../domain/pagination";
@@ -5,10 +12,6 @@ import { httpClient, urls } from "./api";
 
 
 export const getEpisodeImpl: GetEpisodeRepository = {
-  getEpisode: async (id) => {
-    const dto = await httpClient.get<Episode>(`${urls.episodes}/${id}`);
-    return dto;
-  },
   getSomeEpisodes:async (ids) => {
       const dto = await httpClient.get<Episode[]>(`${urls.episodes}/${ids}`)
       return dto;

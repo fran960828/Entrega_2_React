@@ -1,29 +1,37 @@
+/** * COMPONENT: EpisodesCard
+ * Representación visual de un episodio.
+ * Gestiona favoritos y la apertura de modales de forma declarativa mediante la URL.
+ * Permite que el estado "Ver Elenco" sea persistente y compartible.
+ */
 
 import { Heart, Calendar } from "lucide-react";
-import classes from "./EpisodesCard.module.css";
-import { useFavorites } from "../../hooks/useFavorites";
-import type { Episode } from "../../../core/domain/episodes";
-import { EpisodeCharacters } from "./EpisodeCharacters";
 import { useSearchParams } from "react-router-dom";
+import { useFavorites } from "../../hooks/useFavorites";
+import { EpisodeCharacters } from "./EpisodeCharacters";
+import classes from "./EpisodesCard.module.css";
+import type { EpisodeCardProps } from "../../models/models";
 
-export const EpisodesCard = ({ episode }: { episode: Episode }) => {
+export const EpisodesCard = ({ episode }: EpisodeCardProps) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { isFavorite, toggleFavorite } = useFavorites("favEpisodes", episode.id);
 
-  // Comprobamos si el ID de este episodio es el que está en la URL
+  /** * LÓGICA DE MODAL (URL STATE):
+   * Verificamos si el ID de este episodio coincide con el parámetro 'showCast' en la URL.
+   */
   const isOpen = searchParams.get("showCast") === episode.id.toString();
 
   const handleOpenModal = () => {
-    // Añadimos el ID del episodio a la URL
+    // Sincroniza la URL: app/episodes?showCast=1
     setSearchParams({ ...Object.fromEntries(searchParams), showCast: episode.id.toString() });
   };
 
   const handleCloseModal = () => {
-    // Eliminamos el parámetro para cerrar
+    // Limpia el parámetro para cerrar el modal
     const newParams = new URLSearchParams(searchParams);
     newParams.delete("showCast");
     setSearchParams(newParams);
   };
+
   return (
     <article className={classes.card}>
       <div className={classes.episodeCode}>{episode.episode}</div>
@@ -38,18 +46,19 @@ export const EpisodesCard = ({ episode }: { episode: Episode }) => {
 
       <div className={classes.actions}>
         <button className={classes.castBtn} onClick={handleOpenModal}>Ver Elenco</button>
+        
+        {/* Renderizado condicional basado en la URL */}
         {isOpen && (
-      <EpisodeCharacters 
-        characterUrls={episode.characters} 
-        episodeName={episode.name} 
-        onClose={handleCloseModal}
-      />
-    )}
+          <EpisodeCharacters 
+            characterUrls={episode.characters} 
+            episodeName={episode.name} 
+            onClose={handleCloseModal}
+          />
+        )}
 
         <button className={classes.favBtn} onClick={toggleFavorite}>
           <Heart 
             size={20}
-            className={isFavorite ? 'heartFilled':'heartEmpty'}
             fill={isFavorite ? "#97ce4c" : "none"} 
             color={isFavorite ? "#97ce4c" : "#6b7280"} 
           />

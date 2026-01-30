@@ -1,0 +1,31 @@
+/* --- PORTAL --- */
+.portalWrapper {
+  position: absolute;
+  border-radius: 50%;
+  width: 280px; /* Mobile default */
+  height: 280px;
+  background: radial-gradient(circle, rgba(151, 206, 76, 0.4) 0%, rgba(0, 0, 0, 0) 70%);
+  box-shadow: 0 0 100px rgba(151, 206, 76, 0.2);
+}
+
+.portalRing {
+  width: 100%;
+  height: 100%;
+  border: 4px dashed rgba(151, 206, 76, 0.3);
+  border-radius: 50%;
+}
+
+@media (min-width: 768px) {
+  .portalWrapper {
+    width: 450px;
+    height: 450px;
+  }
+}
+
+/* Desktop (1024px) */
+@media (min-width: 1024px) {
+  .portalWrapper {
+    width: 550px;
+    height: 550px;
+  }
+}

@@ -1,3 +1,8 @@
+/** * CONTAINER: Character
+ * Orquestador de la lógica de búsqueda, filtrado y paginación.
+ * Implementa el patrón "URL as Truth": sincroniza el estado local con los 
+ * parámetros de búsqueda para permitir navegación persistente y compartir enlaces.
+ */
 
 import type { Filters } from "../../../core/domain/pagination";
 import { useCharacters } from "../../hooks/useCharacters";
@@ -9,11 +14,10 @@ import { Pagination } from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
 
 
-
 export const Character = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   
-  // Inicializamos el estado leyendo de la URL (importante para el F5)
+  // Inicializamos el estado leyendo de la URL 
   const [filters, setFilters] = useState<Filters>({
     page: Number(searchParams.get("page")) || 1,
     name: searchParams.get("name") || "",
@@ -21,9 +25,9 @@ export const Character = () => {
     species: searchParams.get("species") || ""
   });
 
-  const { data} = useCharacters(filters);
+  const {data} = useCharacters(filters);
 
-  // --- EL TRUCO MÁGICO ---
+  
   // Cada vez que 'filters' cambie (por el buscador o paginación), actualizamos la URL
   useEffect(() => {
     const params: Record<string, string> = {};
@@ -42,7 +46,7 @@ export const Character = () => {
       page: 1 // Siempre que filtramos volvemos a la página 1
     }));
   };
-
+  // Función que maneja el cambio de pagina
   const handlePageChange = (newPage: number) => {
     setFilters(prev => ({ ...prev, page: newPage }));
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -60,7 +64,6 @@ export const Character = () => {
   }
   return (
     <section className={classes.container}>
-      {/* Aquí irá el componente de filtros más adelante */}
       <div className={classes.filter}>
         <CharacterFilter 
         onFilterChange={handleUpdateFilters} 
@@ -68,7 +71,6 @@ export const Character = () => {
       />
       </div>
       {content}
-      {/* Aquí irá la paginación más adelante */}
       <div >{data && (
         <Pagination 
           currentPage={filters.page} 

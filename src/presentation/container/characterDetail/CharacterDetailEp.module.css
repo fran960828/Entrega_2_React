@@ -1,0 +1,21 @@
+.appearances {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 2rem;
+  padding: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+  color: #97ce4c;
+}
+
+.episodesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

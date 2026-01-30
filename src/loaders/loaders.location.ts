@@ -1,3 +1,8 @@
+/** * LOADER: Characters
+ * Estrategia de Prefetching: Sincroniza los parámetros de la URL con la caché de React Query.
+ * Asegura que los datos estén listos en el QueryClient antes de renderizar la vista.
+ */
+
 import type { LoaderFunctionArgs } from "react-router-dom";
 import { queryClient } from '../main'
 import { getAllLocationsUI } from "../config/dependencies"; // Tu caso de uso/servicio

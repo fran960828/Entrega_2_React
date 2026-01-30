@@ -1,52 +1,38 @@
+/** * CONTAINER: Dashboard
+ * Punto de entrada principal y experiencia inmersiva.
+ * Orquestador de animaciones coordinadas mediante Framer Motion.
+ * Gestiona el fondo cinemático y la rejilla de acceso a los módulos de la app.
+ */
+
 import { motion } from "framer-motion";
 import { DashboardCard } from "./DashboardCard";
 import classes from "./Dashboard.module.css";
+import { DashboardBackground } from "./DashboardBackground";
+import { DashboardMain } from "./DashboardMain";
 
 export const Dashboard = () => {
   return (
     <div className={classes.container}>
       
-      {/* --- PORTAL ANIMADO (FONDO) --- */}
-      <motion.div 
-        initial={{ scale: 0, rotate: -180, opacity: 0 }}
-        animate={{ scale: 1, rotate: 0, opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className={classes.portalWrapper}
-      >
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          className={classes.portalRing}
-        />
-      </motion.div>
+      {/* CAPA 1: Portal animado y efectos visuales de profundidad */}
+      <DashboardBackground />
 
-      {/* --- CONTENIDO PRINCIPAL --- */}
+      {/* CAPA 2: Interfaz de usuario y navegación */}
       <div className={classes.content}>
-        <motion.img 
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          src="/logo.png" 
-          alt="Rick and Morty Logo" 
-          className={classes.logo}
-        />
+        
+        {/* Título y elementos visuales centrales (Logo, texto de bienvenida) */}
+        <DashboardMain />
 
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 1 }}
-          className={classes.subtitle}
-        >
-          Multiverse Explorer Dashboard
-        </motion.p>
-
-        {/* --- BOTONES DE ACCIÓN --- */}
+        {/* CAPA 3: Rejilla de navegación con entrada secuencial (Staggered animation) */}
         <motion.div 
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1.3, duration: 0.8 }}
           className={classes.cardGrid}
         >
+          {/** * Cada DashboardCard recibe un delay incremental para crear 
+           * un efecto de "cascada" visual al cargar la página.
+           */}
           <DashboardCard to="/characters" label="Characters" delay={1.5} />
           <DashboardCard to="/locations" label="Locations" delay={1.7} />
           <DashboardCard to="/episodes" label="Episodes" delay={1.9} />

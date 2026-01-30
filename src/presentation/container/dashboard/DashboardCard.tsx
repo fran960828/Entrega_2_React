@@ -1,12 +1,13 @@
+/** * COMPONENT: DashboardCard
+ * Botón de navegación animado para el menú principal.
+ * Gestiona una entrada secuencial personalizada mediante 'props' 
+ * e implementa micro-interacciones para mejorar el feedback de usuario.
+ */
+
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import classes from "./DashboardCard.module.css";
-
-interface DashboardCardProp {
-  to: string;
-  label: string;
-  delay: number;
-}
+import type { DashboardCardProp } from "../../models/models";
 
 export const DashboardCard = ({ to, label, delay }: DashboardCardProp) => {
   return (

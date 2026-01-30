@@ -1,3 +1,9 @@
+/** * COMPONENT: EpisodeCharacters (Modal)
+ * Interfaz de detalle para el elenco de un episodio.
+ * Utiliza React Portals para desacoplar el renderizado del DOM principal.
+ * Implementa gestión de accesibilidad (Escape key) y bloqueo de scroll global.
+ */
+
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
@@ -5,41 +11,39 @@ import { X, Users } from "lucide-react";
 import { createPortal } from "react-dom";
 import { getSomeCharactersUI } from "../../../config/dependencies";
 import classes from "./EpisodeCharacters.module.css";
-
-interface EpisodeCharactersProps {
-  characterUrls: string[];
-  episodeName: string;
-  onClose: () => void;
-}
+import type { EpisodeCharactersProps } from "../../models/models";
 
 export const EpisodeCharacters = ({ characterUrls, episodeName, onClose }: EpisodeCharactersProps) => {
-  // 1. Extraer IDs y fetch de datos
+  // 1. Lógica de Negocio: Transformación de URLs en IDs para la Query
   const ids = characterUrls.map((url) => Number(url.split("/").pop()));
 
   const { data: characters, isLoading } = useQuery({
     queryKey: ["episode-characters", ids],
     queryFn: () => getSomeCharactersUI(ids),
     enabled: !!ids,
-    staleTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 10, // Cache persistente por 10 minutos
   });
 
-  // 2. Manejo de tecla ESC y scroll del body
+  /** * GESTIÓN DE SIDE-EFFECTS (UX):
+   * Bloquea el scroll del fondo y escucha eventos de teclado para accesibilidad.
+   */
   useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
+    const handleEsc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handleEsc);
-    document.body.style.overflow = "hidden"; // Bloquear scroll al abrir
+    document.body.style.overflow = "hidden"; 
 
     return () => {
       window.removeEventListener("keydown", handleEsc);
-      document.body.style.overflow = "unset"; // Liberar scroll al cerrar
+      document.body.style.overflow = "unset"; 
     };
   }, [onClose]);
 
+  // Normalización de datos para asegurar un iterable
   const charArray = Array.isArray(characters) ? characters : characters ? [characters] : [];
 
-  // Renderizado mediante Portal
+  /** * RENDERIZADO MEDIANTE PORTAL:
+   * El modal se inyecta en 'modal-root' (fuera de <div id="root">)
+   */
   return createPortal(
     <div className={classes.overlay} onClick={onClose}>
       <div className={classes.modal} onClick={(e) => e.stopPropagation()}>
@@ -66,12 +70,7 @@ export const EpisodeCharacters = ({ characterUrls, episodeName, onClose }: Episo
           ) : (
             <div className={classes.grid}>
               {charArray.map((char) => (
-                <Link 
-                  key={char.id} 
-                  to={`/characters/${char.id}`} 
-                  className={classes.charCard}
-                  onClick={onClose} // Cerrar al seleccionar
-                >
+                <Link key={char.id} to={`/characters/${char.id}`} onClick={onClose}>
                   <div className={classes.imgWrapper}>
                     <img src={char.image} alt={char.name} />
                   </div>
@@ -81,12 +80,8 @@ export const EpisodeCharacters = ({ characterUrls, episodeName, onClose }: Episo
             </div>
           )}
         </div>
-        
-        <footer className={classes.footer}>
-          Total members: {characterUrls.length}
-        </footer>
       </div>
     </div>,
-    document.getElementById("modal-root")! // Asegúrate de tener este id en tu index.html
+    document.getElementById("modal-root")! 
   );
 };
