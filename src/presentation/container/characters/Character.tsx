@@ -1,92 +1,110 @@
 /** * CONTAINER: Character
  * Orquestador de la lógica de búsqueda, filtrado y paginación.
- * Implementa el patrón "URL as Truth": sincroniza el estado local con los 
- * parámetros de búsqueda para permitir navegación persistente y compartir enlaces.
+ * Optimizado: Se elimina useState y useEffect para usar la URL como Single Source of Truth.
  */
 
 import type { Filters } from "../../../core/domain/pagination";
-import { useCharacters } from "../../hooks/useCharacters";
+import { useGenericPagination } from "../../hooks/useGenericPagination";
 import { CharacterCard } from "./CharacterCard";
-import classes from "./Character.module.css"; 
+import classes from "./Character.module.css";
 import { CharacterFilter } from "./CharacterFilter";
-import { useEffect, useState } from "react";
 import { Pagination } from "../../components/Pagination";
 import { useSearchParams } from "react-router-dom";
-
+import { getAllCharactersUI } from "../../../config/dependencies";
 
 export const Character = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  
-  // Inicializamos el estado leyendo de la URL 
-  const [filters, setFilters] = useState<Filters>({
+
+  /** * 1. ESTADO DERIVADO (URL as Truth):
+   * Construimos el objeto de filtros directamente desde la URL en cada renderizado.
+   */
+  const currentFilters: Filters = {
     page: Number(searchParams.get("page")) || 1,
     name: searchParams.get("name") || "",
     status: searchParams.get("status") || "",
-    species: searchParams.get("species") || ""
-  });
+    species: searchParams.get("species") || "",
+  };
 
-  const {data, isError} = useCharacters(filters);
+  /** * 2. CONSUMO DE DATOS:
+   * El hook genérico reaccionará automáticamente cuando la URL cambie.
+   */
+  const { data, isError, isLoading } = useGenericPagination(
+    "characters",
+    getAllCharactersUI,
+    currentFilters
+  );
+
+  /** * 3. MANEJADORES DE NAVEGACIÓN (Event-driven):
+   * En lugar de actualizar un estado local, actualizamos la URL directamente.
+   */
+  const updateURL = (newParams: Record<string, string | number>) => {
+    const params = new URLSearchParams();
+
+    // Solo añadimos a la URL los valores que existen para mantenerla limpia
+    if (newParams.page && Number(newParams.page) > 1)
+      params.set("page", newParams.page.toString());
+    if (newParams.name) params.set("name", newParams.name.toString());
+    if (newParams.status) params.set("status", newParams.status.toString());
+    if (newParams.species) params.set("species", newParams.species.toString());
+
+    setSearchParams(params, { replace: true });
+  };
 
   const handleUpdateFilters = (newChanges: Partial<Filters>) => {
-    setFilters((prev) => ({
-      ...prev,
+    // Combinamos filtros actuales con los cambios y reseteamos a página 1
+    updateURL({
+      ...currentFilters,
       ...newChanges,
-      page: 1 // Siempre que filtramos volvemos a la página 1
-    }));
+      page: 1,
+    });
   };
-  // Función que maneja el cambio de pagina
+
   const handlePageChange = (newPage: number) => {
-    setFilters(prev => ({ ...prev, page: newPage }));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateURL({ ...currentFilters, page: newPage });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
- // Cada vez que 'filters' cambie (por el buscador o paginación), actualizamos la URL
-  useEffect(() => {
-    const params: Record<string, string> = {};
-    if (filters.page > 1) params.page = filters.page.toString();
-    if (filters.name) params.name = filters.name;
-    if (filters.status) params.status = filters.status;
-    if (filters.species) params.species = filters.species;
-    
-    setSearchParams(params, { replace: true }); // 'replace' evita llenar el historial de "atrás" con cada letra
-  }, [filters, setSearchParams]);
+  // Lógica de renderizado
+  const isResultsEmpty =
+    !isLoading && (isError || (data && data.results.length === 0));
 
-  const isResultsEmpty = isError || (data && data.results && data.results.length === 0)
-  let content;
-
-  if (isResultsEmpty){
-      content = (
-      <div className={classes.noResults}>
-        <p>No se encontraron personajes que coincidan con "{filters.name}"</p>
-      </div>
-    )
-  }else if (data){
-    content=
-    <div className={classes.grid}>    
-        {data.results.map((i) => (
-          <CharacterCard key={i.id} character={i} />
-        ))}
-      </div>
-  }
-
-  
   return (
     <section className={classes.container}>
       <div className={classes.filter}>
-        <CharacterFilter 
-        onFilterChange={handleUpdateFilters} 
-        initialValues={{ name: filters.name, status: filters.status, species: filters.species }} 
-      />
-      </div>
-      {content}
-      <div >{data && (
-        <Pagination 
-          currentPage={filters.page} 
-          totalPages={data.info.pages} 
-          onPageChange={handlePageChange} 
+        <CharacterFilter
+          onFilterChange={handleUpdateFilters}
+          initialValues={{
+            name: currentFilters.name,
+            status: currentFilters.status,
+            species: currentFilters.species,
+          }}
         />
-      )}</div>
+      </div>
+
+      {isLoading && (
+        <div className={classes.loading}>Buscando personajes...</div>
+      )}
+
+      {isResultsEmpty && (
+        <div className={classes.noResults}>
+          <p>No se encontraron personajes que coincidan con la búsqueda.</p>
+        </div>
+      )}
+
+      {!isResultsEmpty && data && (
+        <>
+          <div className={classes.grid}>
+            {data.results.map((i) => (
+              <CharacterCard key={i.id} character={i} />
+            ))}
+          </div>
+          <Pagination
+            currentPage={currentFilters.page}
+            totalPages={data.info.pages}
+            onPageChange={handlePageChange}
+          />
+        </>
+      )}
     </section>
   );
 };
- 

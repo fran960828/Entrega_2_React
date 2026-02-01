@@ -3,18 +3,11 @@
  */
 
 export interface LocationModel {
-    id:number,
-    name:string,
-    type:string,
-    dimension:string,
-    residents:string[],//lista de endpoints de personajes que residen en la localización
-    url:string,
-    created:string
+  id: number;
+  name: string;
+  type: string;
+  dimension: string;
+  residents: string[]; //lista de endpoints de personajes que residen en la localización
+  url: string;
+  created: string;
 }
-
-
-
-
-
-
-

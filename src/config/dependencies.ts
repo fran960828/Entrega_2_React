@@ -1,10 +1,17 @@
 /** * CONFIG: Dependency Injection
- * Punto de composición de la arquitectura. 
+ * Punto de composición de la arquitectura.
  * Une los Casos de Uso con sus implementaciones reales (Infraestructura)
  * para ser consumidos por la capa de Presentación.
  */
 
-import { getAllCharacter, getAllEpisodes, getAllLocations, getCharacter, getSomeCharacters, getSomeEpisodes } from "../core/Application/use-cases";
+import {
+  getAllCharacter,
+  getAllEpisodes,
+  getAllLocations,
+  getCharacter,
+  getSomeCharacters,
+  getSomeEpisodes,
+} from "../core/Application/use-cases";
 import { getCharacterImpl } from "../core/infraestructure/CharacterImpl";
 import { getEpisodeImpl } from "../core/infraestructure/EpisodeImpl";
 import { getLocationImpl } from "../core/infraestructure/LocationImpl";
@@ -14,10 +21,13 @@ export const getCharacterUI = getCharacter(getCharacterImpl);
 export const getSomeCharactersUI = getSomeCharacters(getCharacterImpl);
 export const getAllCharactersUI = getAllCharacter(getCharacterImpl);
 
-// Ubicaciones
+// --- UBICACIONES ---
+// Refactorizado para asegurar que recibe el objeto { page } y lo pasa al caso de uso
 export const getAllLocationsUI = getAllLocations(getLocationImpl);
 
-// Episodios
+// Debería decir "function"
+// --- EPISODIOS ---
+// Refactorizado siguiendo el mismo patrón de objeto de filtros
 export const getSomeEpisodesUI = getSomeEpisodes(getEpisodeImpl);
 export const getAllEpisodesUI = getAllEpisodes(getEpisodeImpl);
 /*

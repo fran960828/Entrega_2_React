@@ -1,71 +1,69 @@
 /** * CONTAINER: Locations
  * Orquestador del módulo de ubicaciones y dimensiones.
- * Implementa el patrón de sincronización de estado con URL (Search Params)
- * para garantizar que la navegación por páginas sea persistente y compartible.
+ * Optimizado: Sincronización directa con URL, eliminando estados redundantes y useEffect.
  */
 
-import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useLocations } from "../../hooks/useLocations";
 import { LocationCard } from "./LocationCard";
 import classes from "./Locations.module.css";
 import { Pagination } from "../../components/Pagination";
+import { useGenericPagination } from "../../hooks/useGenericPagination";
+import { getAllLocationsUI } from "../../../config/dependencies";
 
 export const Locations = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  /** * ESTADO INICIAL: 
-   * Hidratación desde la URL para soportar recargas de página (F5) 
-   * en una página específica.
+  /** * ESTADO DERIVADO DE LA URL:
+   * Ya no necesitamos useState. Leemos directamente de la fuente de verdad.
    */
-  const [filters, setFilters] = useState(Number(searchParams.get("page")) || 1);
+  const currentPage = Number(searchParams.get("page")) || 1;
 
-  const { data } = useLocations(filters);
+  /** * CONSUMO DE DATOS:
+   * El hook genérico ahora recibe la página directamente de la URL.
+   * La QueryKey se sincroniza automáticamente gracias a 'currentPage'.
+   */
+  const { data, isLoading } = useGenericPagination(
+    "locations",
+    getAllLocationsUI,
+    { page: currentPage }
+  );
 
+  /** * MANEJADOR DE CAMBIO DE PÁGINA:
+   * Actualizamos la URL directamente. React Router detectará el cambio y
+   * provocará el re-renderizado con el nuevo 'currentPage'.
+   */
   const handlePageChange = (newPage: number) => {
-    setFilters(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Feedback visual de cambio de sección
+    const params = new URLSearchParams(searchParams);
+
+    if (newPage > 1) {
+      params.set("page", newPage.toString());
+    } else {
+      params.delete("page");
+    }
+
+    setSearchParams(params, { replace: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-    /** * SINCRONIZACIÓN DE URL:
-   * Refleja el estado local en los parámetros de búsqueda del navegador.
-   * 'replace: true' evita que cada cambio de página genere una nueva entrada
-   * en el historial de navegación "atrás".
-   */
-  useEffect(() => {
-    const currentURLPage = Number(searchParams.get("page")) || 1;
+  if (isLoading)
+    return <div className={classes.loading}>Cargando dimensiones...</div>;
 
-    if (filters !== currentURLPage) {
-      const newParams = new URLSearchParams();
-      if (filters > 1) {
-        newParams.set("page", filters.toString());
-      }
-      setSearchParams(newParams, { replace: true });
-    }
-  }, [filters]);
-
-  if (!data || data.results.length === 0) return <p>No se encontraron dimensiones.</p>;
+  if (!data || data.results.length === 0)
+    return <p className={classes.noResults}>No se encontraron dimensiones.</p>;
 
   return (
     <section className={classes.container}>
       <h2 className={classes.title}>Explorar Dimensiones</h2>
 
-      {/* RENDERIZADO EN CUADRÍCULA: 
-          Las ubicaciones se presentan en un layout de Grid para facilitar 
-          el escaneo rápido de nombres y tipos.
-      */}
       <div className={classes.grid}>
         {data.results.map((location) => (
           <LocationCard key={location.id} location={location} />
         ))}
       </div>
 
-      {/* CONTROL DE NAVEGACIÓN: 
-          Delegación de la lógica visual al componente común Pagination.
-      */}
-      {data.info && (
+      {data.info && data.info.pages > 1 && (
         <Pagination
-          currentPage={filters}
+          currentPage={currentPage}
           totalPages={data.info.pages}
           onPageChange={handlePageChange}
         />
@@ -73,4 +71,3 @@ export const Locations = () => {
     </section>
   );
 };
-

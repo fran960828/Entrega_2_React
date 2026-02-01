@@ -1,5 +1,5 @@
 /** * PORTS: Repositories
- * Definición de contratos para el acceso a datos. 
+ * Definición de contratos para el acceso a datos.
  * Actúan como puentes entre la lógica de negocio y la infraestructura (API).
  */
 
@@ -10,15 +10,15 @@ import type { Filters, Pagination } from "../domain/pagination";
 
 export interface GetCharacterRepository {
   getCharacter: (id: number) => Promise<Character>;
-  getSomeCharacters:(ids:number[])=> Promise<Character[]>;
-  getAllCharacters: (filters:Filters) => Promise<Pagination<Character>>;
+  getSomeCharacters: (ids: number[]) => Promise<Character[]>;
+  getAllCharacters: (filters: Filters) => Promise<Pagination<Character>>;
 }
 
 export interface GetLocationRepository {
-  getAllLocations: (page:number) => Promise<Pagination<LocationModel>>;
+  getAllLocations: (filters: Filters) => Promise<Pagination<LocationModel>>;
 }
 
 export interface GetEpisodeRepository {
-  getSomeEpisodes:(ids:number[])=> Promise<Episode[]>;
-  getAllEpisodes: (page?:number) => Promise<Pagination<Episode>>;
+  getSomeEpisodes: (ids: number[]) => Promise<Episode[]>;
+  getAllEpisodes: (filters: Filters) => Promise<Pagination<Episode>>;
 }

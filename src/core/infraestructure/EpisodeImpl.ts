@@ -3,27 +3,20 @@
  * Gestiona la construcción de URLs y la comunicación con el httpClient.
  */
 
-
-
 import type { GetEpisodeRepository } from "../Application/ports";
 import type { Episode } from "../domain/episodes";
-import type { Pagination } from "../domain/pagination";
+import type { Filters, Pagination } from "../domain/pagination";
 import { httpClient, urls } from "./api";
 
-
 export const getEpisodeImpl: GetEpisodeRepository = {
-  getSomeEpisodes:async (ids) => {
-      const dto = await httpClient.get<Episode[]>(`${urls.episodes}/${ids}`)
-      return dto;
-    },
-  getAllEpisodes: async (page?:number) => { 
-      if (!page){
-        page=1
-      } 
-      const params = new URLSearchParams();
-      params.append('page', page.toString());
-      ;
-      const url = `${urls.episodes}/?${params.toString()}`;
-      return await httpClient.get<Pagination<Episode>>(url);
+  getSomeEpisodes: async (ids) => {
+    const dto = await httpClient.get<Episode[]>(`${urls.episodes}/${ids}`);
+    return dto;
+  },
+  getAllEpisodes: async (filters: Filters) => {
+    const params = new URLSearchParams();
+    params.append("page", filters.page.toString());
+    const url = `${urls.episodes}/?${params.toString()}`;
+    return await httpClient.get<Pagination<Episode>>(url);
   },
 };

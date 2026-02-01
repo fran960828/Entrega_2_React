@@ -5,15 +5,14 @@
 
 import type { GetLocationRepository } from "../Application/ports";
 import type { LocationModel } from "../domain/location";
-import type { Pagination } from "../domain/pagination";
+import type { Filters, Pagination } from "../domain/pagination";
 import { httpClient, urls } from "./api";
 
-
 export const getLocationImpl: GetLocationRepository = {
-  getAllLocations: async (page:number) => {
-      const params = new URLSearchParams();
-      params.append('page', page.toString());
-      const url = `${urls.locations}/?${params.toString()}`;
-      return await httpClient.get<Pagination<LocationModel>>(url);
+  getAllLocations: async (filters: Filters) => {
+    const params = new URLSearchParams();
+    params.append("page", filters.page.toString());
+    const url = `${urls.locations}/?${params.toString()}`;
+    return await httpClient.get<Pagination<LocationModel>>(url);
   },
 };

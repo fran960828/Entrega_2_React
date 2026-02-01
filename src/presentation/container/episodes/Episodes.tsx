@@ -1,67 +1,66 @@
 /** * CONTAINER: Episodes
  * Orquestador del listado de episodios y gestión de paginación.
- * Sincroniza el estado de navegación con la URL para permitir 
- * el guardado de posición en el historial del navegador.
+ * Optimizado: Sincronización directa con URL mediante eventos, eliminando efectos secundarios.
  */
 
-import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { EpisodesCard } from "./EpisodesCard";
 import classes from "./Episodes.module.css";
 import { Pagination } from "../../components/Pagination";
-import { useEpisodes } from "../../hooks/useEpisodes";
+
+import { useGenericPagination } from "../../hooks/useGenericPagination";
+import { getAllEpisodesUI } from "../../../config/dependencies";
 
 export const Episodes = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  /** * ESTADO INICIAL: 
-   * Se hidrata desde la URL para mantener la consistencia tras un refresco (F5).
+  /** * LECTURA DE URL:
+   * Obtenemos la página directamente de los SearchParams.
+   * React Router se encargará de re-renderizar el componente cuando la URL cambie.
    */
-  const [filters, setFilters] = useState(Number(searchParams.get("page")) || 1);
+  const currentPage = Number(searchParams.get("page")) || 1;
 
-  const { data } = useEpisodes(filters);
+  /** * FETCHING GENÉRICO:
+   * Consumimos el hook genérico pasando la página extraída de la URL.
+   */
+  const { data } = useGenericPagination(
+    "episodes", // Cambiado a 'episodes' para consistencia con la caché
+    getAllEpisodesUI,
+    { page: currentPage }
+  );
 
- 
-
+  /** * MANEJADOR DE EVENTO:
+   * Actualiza la URL y realiza el scroll. No necesitamos setFilters porque
+   * el cambio en la URL dispara el nuevo renderizado con la página correcta.
+   */
   const handlePageChange = (newPage: number) => {
-    setFilters(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // Mejora de UX: scroll automático al inicio
+    const params = new URLSearchParams(searchParams);
+
+    if (newPage > 1) {
+      params.set("page", newPage.toString());
+    } else {
+      params.delete("page"); // Limpiamos la URL si volvemos a la página 1
+    }
+
+    setSearchParams(params, { replace: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
- /** * EFECTO DE SINCRONIZACIÓN:
-   * Mantiene la URL actualizada con el estado local de paginación.
-   * Utiliza 'replace: true' para no saturar el historial con cada cambio de página.
-   */
-  useEffect(() => {
-    const currentURLPage = Number(searchParams.get("page")) || 1;
-
-    if (filters !== currentURLPage) {
-      const newParams = new URLSearchParams();
-      if (filters > 1) {
-        newParams.set("page", filters.toString());
-      }
-      setSearchParams(newParams, { replace: true });
-    }
-  }, [filters]);
-
-
-
-  if (!data || data.results.length === 0) return <p>No se encontraron dimensiones.</p>;
+  if (!data || data.results.length === 0)
+    return <p className={classes.noResults}>No se encontraron episodios.</p>;
 
   return (
     <section className={classes.container}>
       <h2 className={classes.title}>Broadcast History</h2>
-    
+
       <div className={classes.list}>
         {data.results.map((episode) => (
           <EpisodesCard key={episode.id} episode={episode} />
         ))}
       </div>
-    
-      {/* PAGINACIÓN: Solo se renderiza si existen metadatos de info de la API */}
-      {data.info && (
+
+      {data.info && data.info.pages > 1 && (
         <Pagination
-          currentPage={filters}
+          currentPage={currentPage}
           totalPages={data.info.pages}
           onPageChange={handlePageChange}
         />
@@ -69,4 +68,3 @@ export const Episodes = () => {
     </section>
   );
 };
-
