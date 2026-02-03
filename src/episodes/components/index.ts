@@ -1,2 +1,2 @@
-export * from './EpisodesCard'
-export * from './EpisodeCharacters'
+export * from "./EpisodesCard";
+export * from "./EpisodeCastContainer";

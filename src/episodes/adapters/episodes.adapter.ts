@@ -4,11 +4,14 @@
  */
 
 import { httpClient, urls } from "../../shared/adapter";
-import type{ Filters, Pagination } from "../../shared/models";
-import type{ Episode, GetEpisodeRepository } from "../models";
-
+import type { Filters, Pagination } from "../../shared/models";
+import type { Episode, GetEpisodeRepository } from "../models";
 
 export const getEpisodeImpl: GetEpisodeRepository = {
+  getEpisode: async (id) => {
+    const dto = await httpClient.get<Episode>(`${urls.episodes}/${id}`);
+    return dto;
+  },
   getSomeEpisodes: async (ids) => {
     const dto = await httpClient.get<Episode[]>(`${urls.episodes}/${ids}`);
     return dto;

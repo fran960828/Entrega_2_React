@@ -1,158 +1,81 @@
 .card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1rem;
-  padding: 1.5rem;
+  background: #3c3e44;
+  border-radius: 10px;
   display: flex;
-  align-items: center;
-  gap: 2rem;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: inherit;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
 }
 
 .card:hover {
-  background: rgba(151, 206, 76, 0.05);
-  border-color: #97ce4c;
-  transform: translateX(10px); /* Efecto de desplazamiento lateral */
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .episodeCode {
-  background: #97ce4c;
-  color: #000;
-  font-weight: 800;
-  padding: 0.75rem 1rem;
-  border-radius: 0.5rem;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 1.2rem;
-  min-width: 100px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(151, 206, 76, 0.3);
+  background: #272b33;
+  color: #97ce4c;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0;
+  text-transform: uppercase;
 }
 
 .mainInfo {
+  padding: 1.25rem;
   flex-grow: 1;
 }
 
 .title {
+  margin: 0 0 0.75rem 0;
   color: #fff;
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0 0 0.5rem 0;
+  font-size: 1.3rem;
+  line-height: 1.2;
 }
 
 .airDate {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #94a3b8;
-  font-size: 0.9rem;
+  color: #9e9e9e;
+  font-size: 0.85rem;
 }
 
-.arrow {
-  color: #97ce4c;
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-.card:hover .arrow {
-  opacity: 1;
-  transform: translateX(5px);
-}
 .actions {
   display: flex;
-  align-items: center;
-  gap: 1.25rem; /* Espacio entre el placeholder del modal y el corazón */
-  margin-left: auto; /* Empuja las acciones a la derecha en formato lista */
+  padding: 1rem 1.25rem;
+  gap: 1rem;
+  border-top: 1px solid #272b33;
 }
 
-/* Placeholder para el futuro botón del modal */
-.modalPlaceholder {
-  font-size: 0.75rem;
-  color: #6b7280;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border: 1px dashed rgba(151, 206, 76, 0.3);
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  cursor: default;
+.castBtn {
+  flex: 1;
+  background: #97ce4c;
+  color: #272b33;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.castBtn:hover {
+  background: #b2df6e;
 }
 
 .favBtn {
-  background: none;
+  background: transparent;
   border: none;
-  padding: 0.5rem;
   cursor: pointer;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.02);
+  transition: transform 0.2s;
 }
 
 .favBtn:hover {
   transform: scale(1.2);
-  background: rgba(151, 206, 76, 0.1);
 }
-
-/* Efecto cuando el corazón está activo (favorito) */
-.favBtn svg {
-  transition: all 0.3s ease;
-}
-
-/* Animación de "latido" al marcarlo */
-.favBtn:active {
-  transform: scale(0.9);
-}
-
-/* Estilos para el icono dentro del botón según el estado */
-.heartFilled {
-  fill: #97ce4c; /* Verde Rick */
-  color: #97ce4c;
-  filter: drop-shadow(0 0 5px rgba(151, 206, 76, 0.5));
-}
-
-.heartEmpty {
-  color: #6b7280;
-}
-
-.castBtn {
-  background: rgba(151, 206, 76, 0.05); /* Fondo verde muy tenue */
-  border: 1px solid rgba(151, 206, 76, 0.3); /* Borde semi-transparente */
-  color: #97ce4c; /* Texto verde Rick */
-  padding: 0.5rem 1.2rem;
-  border-radius: 2rem; /* Forma de píldora */
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  outline: none;
-}
-
-.castBtn:hover {
-  background: #97ce4c; /* Se llena de color al hover */
-  color: #0c111d; /* Texto oscuro para contraste */
-  border-color: #97ce4c;
-  box-shadow: 0 0 15px rgba(151, 206, 76, 0.4); /* Resplandor */
-  transform: translateY(-2px);
-}
-
-.castBtn:active {
-  transform: translateY(0);
-}
-/* Responsive */
-@media (max-width: 640px) {
-  .card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-}
-

@@ -1,7 +1,11 @@
-import type{ Filters } from "../../shared/models";
-import {getEpisodeImpl} from '../adapters'
-import type{ GetEpisodeRepository } from "../models";
+import type { Filters } from "../../shared/models";
+import { getEpisodeImpl } from "../adapters";
+import type { GetEpisodeRepository } from "../models";
 
+export const getEpisode =
+  (GetEpisodeRepository: GetEpisodeRepository) => async (id: number) => {
+    return GetEpisodeRepository.getEpisode(id);
+  };
 
 export const getSomeEpisodes =
   (GetEpisodeRepository: GetEpisodeRepository) => async (ids: number[]) => {
@@ -14,5 +18,6 @@ export const getAllEpisodes =
   };
 
 // --- EPISODIOS ---
+export const getEpisodeUI = getEpisode(getEpisodeImpl);
 export const getSomeEpisodesUI = getSomeEpisodes(getEpisodeImpl);
 export const getAllEpisodesUI = getAllEpisodes(getEpisodeImpl);

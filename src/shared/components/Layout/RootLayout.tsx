@@ -6,6 +6,7 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import classes from "./RootLayout.module.css";
 import { Header } from "../Header";
+import { ModalProvider } from "../Modal/context";
 
 export const RootLayout = () => {
   return (
@@ -13,12 +14,14 @@ export const RootLayout = () => {
       <Header />
 
       <main className={classes.mainContent}>
-        <Outlet />
+        <ModalProvider>
+          <Outlet />
+        </ModalProvider>
       </main>
 
       {/* Este div añade ese toque de profundidad verde neón en el fondo */}
       <div className={classes.ambientGlow} />
-      <ScrollRestoration/>
+      <ScrollRestoration />
     </div>
   );
 };
