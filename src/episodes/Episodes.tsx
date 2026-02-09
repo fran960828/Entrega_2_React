@@ -12,6 +12,7 @@ import { getAllEpisodesUI } from "./services";
 import { useGenericPagination } from "../shared/hooks";
 import classes from "./Episodes.module.css";
 import { EpisodesCard } from "./components";
+import { Pagination } from "../shared/components/Pagination";
 // ... (tus otros imports)
 
 export const Episodes = () => {
@@ -19,11 +20,27 @@ export const Episodes = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const { data } = useGenericPagination("episodes", getAllEpisodesUI, {
+  const { data, isError } = useGenericPagination("episodes", getAllEpisodesUI, {
     page: currentPage,
   });
 
-  // ... (handlePageChange igual que antes)
+ const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (newPage > 1) {
+      params.set("page", newPage.toString());
+    } else {
+      params.delete("page");
+    }
+
+    setSearchParams(params, { replace: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const isResultsEmpty =
+     (isError || (data && data.results.length === 0)||!data);
+
+  {isResultsEmpty && <p>Sin resultado de episodios</p>}
 
   return (
     <section className={classes.container}>
@@ -44,7 +61,11 @@ export const Episodes = () => {
         </Modal>
       )}
 
-      {/* Pagination... */}
+      <Pagination
+            currentPage={currentPage}
+            totalPages={data!.info.pages}
+            onPageChange={handlePageChange}
+          />
     </section>
   );
 };

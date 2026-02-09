@@ -22,7 +22,7 @@ export const Locations = () => {
    * El hook genérico ahora recibe la página directamente de la URL.
    * La QueryKey se sincroniza automáticamente gracias a 'currentPage'.
    */
-  const { data, isLoading } = useGenericPagination(
+  const { data } = useGenericPagination(
     "locations",
     getAllLocationsUI,
     { page: currentPage }
@@ -45,8 +45,7 @@ export const Locations = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  if (isLoading)
-    return <div className={classes.loading}>Cargando dimensiones...</div>;
+  
 
   if (!data || data.results.length === 0)
     return <p className={classes.noResults}>No se encontraron dimensiones.</p>;

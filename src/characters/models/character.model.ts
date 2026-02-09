@@ -1,10 +1,16 @@
 /** * DOMAIN ENTITY: Character
  * Representa la estructura central de un personaje en el multiverso.
  */
-enum Status{
+export enum Status{
 alive='Alive',
 dead='Dead',
 unknown='Unknown'
+}
+
+export enum Species {
+  human='Human',
+  alien='Alien',
+  humanoid='Humanoid'
 }
 
 

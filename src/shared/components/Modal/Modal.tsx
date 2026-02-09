@@ -10,12 +10,10 @@ interface Props {
 }
 
 export const Modal = ({ children, onClose, title }: Props) => {
-  // Bloqueo de scroll y tecla Escape (Lógica de UI pura)
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     window.addEventListener("keydown", handleEsc);
     document.body.style.overflow = "hidden";
-
     return () => {
       window.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "unset";
@@ -27,15 +25,8 @@ export const Modal = ({ children, onClose, title }: Props) => {
       <div className={classes.modal} onClick={(e) => e.stopPropagation()}>
         <header className={classes.header}>
           {title && <h3 className={classes.title}>{title}</h3>}
-          <button
-            className={classes.closeBtn}
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <X size={24} />
-          </button>
+          <button className={classes.closeBtn} onClick={onClose}><X size={24} /></button>
         </header>
-
         <div className={classes.content}>{children}</div>
       </div>
     </div>,

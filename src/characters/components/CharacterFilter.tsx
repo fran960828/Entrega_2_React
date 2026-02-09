@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import classes from "./CharacterFilter.module.css";
+import {Status,Species} from '../models'
 
 interface Props {
   onFilterChange: (changes: { name?: string; status?: string; species?: string }) => void;
@@ -51,18 +52,18 @@ export function CharacterFilter({ onFilterChange, initialValues }: Props) {
       <div className={classes.selectGroup}>
         <select name="status" className={classes.select} onChange={handleSelectChange}>
           <option value="">ALL STATUS</option>
-          <option value="alive">Alive</option>
-          <option value="dead">Dead</option>
-          <option value="unknown">Unknown</option>
+          <option value="alive">{Status.alive}</option>
+          <option value="dead">{Status.dead}</option>
+          <option value="unknown">{Status.unknown}</option>
         </select>
       </div>
 
       <div className={classes.selectGroup}>
         <select name="species" className={classes.select} onChange={handleSelectChange}>
           <option value="">ALL SPECIES</option>
-          <option value="human">Human</option>
-          <option value="alien">Alien</option>
-          <option value="humanoid">Humanoid</option>
+          <option value="human">{Species.human}</option>
+          <option value="alien">{Species.alien}</option>
+          <option value="humanoid">{Species.humanoid}</option>
         </select>
       </div>
     </div>
