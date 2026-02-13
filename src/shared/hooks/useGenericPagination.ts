@@ -5,7 +5,7 @@
  * @param filters - Objeto con page (obligatorio) y criterios extra.
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import type{ Filters } from "../models";
 
 
@@ -19,5 +19,6 @@ export const useGenericPagination = <T, F extends Filters>(
     queryKey: [queryKey, filters],
     queryFn: () => fetchFn(filters),
     staleTime: 1000 * 60 * 5, // 5 minutos de caché
+    placeholderData: keepPreviousData,
   });
 };

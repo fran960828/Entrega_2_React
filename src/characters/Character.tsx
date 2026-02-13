@@ -10,6 +10,7 @@ import { getAllCharactersUI } from "./services";
 import { CharacterCard, CharacterFilter } from "./components";
 import classes from './Character.module.css'
 import { Pagination } from "../shared/components/Pagination";
+import type { Species, Status } from "./models";
 
 
 export const Character = () => {
@@ -21,8 +22,8 @@ export const Character = () => {
   const currentFilters: Filters = {
     page: Number(searchParams.get("page")) || 1,
     name: searchParams.get("name") || "",
-    status: searchParams.get("status") || "",
-    species: searchParams.get("species") || "",
+    status: searchParams.get("status") as Status || "",
+    species: searchParams.get("species") as Species || "",
   };
 
   /** * 2. CONSUMO DE DATOS:
@@ -64,7 +65,7 @@ export const Character = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Lógica de renderizado
+  
   const isResultsEmpty =
      (isError || (data && data.results.length === 0));
 

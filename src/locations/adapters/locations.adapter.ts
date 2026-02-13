@@ -11,8 +11,9 @@ import {httpClient,urls} from '../../shared/adapter/generic.adapter'
 
 export const getLocationImpl: GetLocationRepository = {
   getAllLocations: async (filters: Filters) => {
+    const pageToFetch = filters.page && filters.page > 0 ? filters.page : 1;
     const params = new URLSearchParams();
-    params.append("page", filters.page.toString());
+    params.append("page", pageToFetch.toString());
     const url = `${urls.locations}/?${params.toString()}`;
     return await httpClient.get<Pagination<LocationModel>>(url);
   },

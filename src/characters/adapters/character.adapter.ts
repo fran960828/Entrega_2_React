@@ -9,13 +9,17 @@ export const getCharacterImpl: GetCharacterRepository = {
     return dto;
   },
   getSomeCharacters:async (ids) => {
-    const dto = await httpClient.get<Character[]>(`${urls.characters}/${ids}`)
+    if (!ids || ids.length === 0) return [];
+    const uniqueIds = [...new Set(ids)];
+    
+    const dto = await httpClient.get<Character[]>(`${urls.characters}/${uniqueIds}`)
     return dto;
   },
   getAllCharacters: async (filters) => {
     const { page = 1, name, status, species } = filters;
   const params = new URLSearchParams();
-  params.append('page', page.toString());
+  const pageToFetch = page && page > 0 ? page : 1;
+  params.append('page', pageToFetch.toString());
   if (name) params.append('name', name);
   if (status) params.append('status', status);
   if (species) params.append('species', species);

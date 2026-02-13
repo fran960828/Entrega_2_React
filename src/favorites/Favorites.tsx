@@ -4,13 +4,14 @@
  * peticiones masivas mediante TanStack Query.
  */
 
-import { useQuery } from "@tanstack/react-query";
+
 import { getSomeCharactersUI } from "../characters/services";
 import { getSomeEpisodesUI } from "../episodes/services";
 import { FavoritesList } from "./complements/FavoritesList";
 import classes from "./Favorites.module.css";
 import { EmptyFavorites } from "./complements/EmptyFavorites";
 import { useEffect, useState } from "react";
+import { useByIds } from "../shared/hooks/useByIds";
 
 export const Favorites = () => {
   /** * ESTADO REACTIVO: 
@@ -25,17 +26,9 @@ export const Favorites = () => {
   /** * FETCHING MASIVO: 
    * Las queries solo se ejecutan si existen IDs almacenados ('enabled').
    */
-  const { data: charData } = useQuery({
-    queryKey: ["fav-characters-data", localIds.favCharIds],
-    queryFn: () => getSomeCharactersUI(localIds.favCharIds),
-    enabled: localIds.favCharIds.length > 0,
-  });
-
-  const { data: episodeData } = useQuery({
-    queryKey: ["fav-episodes-data", localIds.favEpisodeIds],
-    queryFn: () => getSomeEpisodesUI(localIds.favEpisodeIds),
-    enabled: localIds.favEpisodeIds.length > 0,
-  });
+  
+  const {data:charData}=useByIds('fav-characters-data',localIds.favCharIds,getSomeCharactersUI)
+  const {data:episodeData}=useByIds('fav-episodes-data',localIds.favEpisodeIds,getSomeEpisodesUI)
 
   // Normalización de datos para asegurar el renderizado de listas
   const characters = Array.isArray(charData) ? charData : charData ? [charData] : [];

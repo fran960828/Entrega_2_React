@@ -11,15 +11,13 @@ import { useState, useEffect } from "react";
 export const useFavorites = (storageKey: string, itemId: number) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  /** Sincronización inicial: Verifica el estado en el almacenamiento al montar el componente */
+  
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem(storageKey) || "[]");
     setIsFavorite(favorites.some((favId: number) => favId === itemId));
   }, [itemId, storageKey]);
 
-  /** * Alterna el estado de favorito y notifica al resto de la aplicación.
-   * @param {React.MouseEvent} [e] - Evento opcional para detener la propagación en UI.
-   */
+  
   const toggleFavorite = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();

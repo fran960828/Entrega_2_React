@@ -5,7 +5,7 @@ import { parseJson } from "./component/parseJson";
 
 
 export const httpClient = {
-  // Refactorización sugerida en generic.adapter.ts
+  
 get: async <T>(url: string): Promise<T> => {
   try {
     const res = await fetch(url);

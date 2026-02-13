@@ -5,12 +5,13 @@
  */
 
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
 import classes from "./CharacterDetail.module.css";
 import { CharacterDetailEp, CharacterDetailHero } from "./components";
 import { getCharacterUI } from "../services";
 import { getSomeEpisodesUI } from "../../episodes/services";
+import { useByOneId } from "../../shared/hooks/useByOneId";
+import { useByIds } from "../../shared/hooks/useByIds";
 
 
 export const CharacterDetail = () => {
@@ -20,24 +21,18 @@ export const CharacterDetail = () => {
   /** * QUERY 1: Obtención del personaje.
    * Se activa automáticamente al detectar el ID en la URL.
    */
-  const { data: character } = useQuery({
-    queryKey: ["character", id],
-    queryFn: () => getCharacterUI(Number(id!)),
-    enabled: !!id,
-  });
+  
+  const { data: character }= useByOneId('character',Number(id),getCharacterUI)
 
   /** * QUERY 2: Queries Dependientes.
    * Procesa las URLs de episodios del personaje para extraer los IDs.
    * 'enabled: !!episodeIds' asegura que esta query no se ejecute hasta que 
    * la Query 1 haya finalizado con éxito.
    */
-  const episodeIds = character?.episode.map((url: string) => Number(url.split("/").pop()));
+  const episodeIds = character?.episode.map((url: string) => Number(url.split("/").pop())) ?? [];
   
-  const { data: episodes } = useQuery({
-    queryKey: ["character-episodes", episodeIds],
-    queryFn: () => getSomeEpisodesUI(episodeIds!),
-    enabled: !!episodeIds,
-  });
+  
+  const {data:episodes}=useByIds('character-episodes',episodeIds,getSomeEpisodesUI)
 
   if (!character) return <p>Personaje no encontrado.</p>;
 

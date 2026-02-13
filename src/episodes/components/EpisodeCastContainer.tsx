@@ -1,9 +1,10 @@
 // src/modules/episodes/components/EpisodeCastContainer.tsx
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { getSomeCharactersUI } from "../../characters/services";
 import { getEpisodeUI } from "../services"; // Necesitarás crear este servicio
 import classes from "./EpisodeCastContainer.module.css";
+import { useByIds } from "../../shared/hooks/useByIds";
+import { useByOneId } from "../../shared/hooks/useByOneId";
 
 export const EpisodeCastContainer = ({
   episodeId,
@@ -13,20 +14,14 @@ export const EpisodeCastContainer = ({
   onClose: () => void;
 }) => {
   // 1. Primero obtenemos el episodio para tener las URLs de los personajes
-  const { data: episode, isLoading: isEpLoading } = useQuery({
-    queryKey: ["episode", episodeId],
-    queryFn: () => getEpisodeUI(episodeId),
-  });
+  const { data: episode, isLoading: isEpLoading } = useByOneId("episode",episodeId,getEpisodeUI)
+  
 
   const characterUrls = episode?.characters || [];
   const ids = characterUrls.map((url) => Number(url.split("/").pop()));
 
   // 2. Obtenemos los personajes
-  const { data: characters, isLoading: isCharsLoading } = useQuery({
-    queryKey: ["episode-characters", ids],
-    queryFn: () => getSomeCharactersUI(ids),
-    enabled: ids.length > 0,
-  });
+  const {data: characters, isLoading: isCharsLoading}=useByIds('episode-characters',ids,getSomeCharactersUI)
 
   if (isEpLoading || isCharsLoading)
     return <div className={classes.loading}>Fetching cast...</div>;

@@ -9,7 +9,7 @@ import classes from "./CharacterFilter.module.css";
 import {Status,Species} from '../models'
 
 interface Props {
-  onFilterChange: (changes: { name?: string; status?: string; species?: string }) => void;
+  onFilterChange: (changes: { name?: string; status?: Status; species?: Species }) => void;
   initialValues: { name?: string; status?: string; species?: string };
 }
 

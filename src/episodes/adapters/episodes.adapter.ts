@@ -13,12 +13,15 @@ export const getEpisodeImpl: GetEpisodeRepository = {
     return dto;
   },
   getSomeEpisodes: async (ids) => {
-    const dto = await httpClient.get<Episode[]>(`${urls.episodes}/${ids}`);
+    if (!ids || ids.length === 0) return [];
+    const uniqueIds = [...new Set(ids)];
+    const dto = await httpClient.get<Episode[]>(`${urls.episodes}/${uniqueIds}`);
     return dto;
   },
   getAllEpisodes: async (filters: Filters) => {
+    const pageToFetch= (filters.page && filters.page>0)? filters.page:1
     const params = new URLSearchParams();
-    params.append("page", filters.page.toString());
+    params.append("page", pageToFetch.toString());
     const url = `${urls.episodes}/?${params.toString()}`;
     return await httpClient.get<Pagination<Episode>>(url);
   },
