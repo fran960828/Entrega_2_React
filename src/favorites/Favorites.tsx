@@ -1,9 +1,8 @@
 /** * CONTAINER: Favorites
  * Gestiona la visualización de elementos persistidos por el usuario.
- * Implementa sincronización reactiva con LocalStorage y orquestación de 
+ * Implementa sincronización reactiva con LocalStorage y orquestación de
  * peticiones masivas mediante TanStack Query.
  */
-
 
 import { getSomeCharactersUI } from "../characters/services";
 import { getSomeEpisodesUI } from "../episodes/services";
@@ -12,37 +11,65 @@ import classes from "./Favorites.module.css";
 import { EmptyFavorites } from "./complements/EmptyFavorites";
 import { useEffect, useState } from "react";
 import { useByIds } from "../shared/hooks/useByIds";
+import { useModal } from "../shared/components/Modal/context";
+import { Modal } from "../shared/components/Modal/Modal";
+import { EpisodeCastContainer } from "../episodes/components";
 
 export const Favorites = () => {
-  /** * ESTADO REACTIVO: 
-   * Guardamos los IDs como strings separados por comas para optimizar 
+  /** * ESTADO REACTIVO:
+   * Guardamos los IDs como strings separados por comas para optimizar
    * las dependencias de la QueryKey.
    */
+  const { activeId, closeModal } = useModal();
   const [localIds, setLocalIds] = useState({
-    favCharIds: JSON.parse(localStorage.getItem("favCharacters") || "[]").join(","),
-    favEpisodeIds: JSON.parse(localStorage.getItem("favEpisodes") || "[]").join(",")
+    favCharIds: JSON.parse(localStorage.getItem("favCharacters") || "[]").join(
+      ","
+    ),
+    favEpisodeIds: JSON.parse(localStorage.getItem("favEpisodes") || "[]").join(
+      ","
+    ),
   });
 
-  /** * FETCHING MASIVO: 
+  /** * FETCHING MASIVO:
    * Las queries solo se ejecutan si existen IDs almacenados ('enabled').
    */
-  
-  const {data:charData}=useByIds('fav-characters-data',localIds.favCharIds,getSomeCharactersUI)
-  const {data:episodeData}=useByIds('fav-episodes-data',localIds.favEpisodeIds,getSomeEpisodesUI)
+
+  const { data: charData, isFetching: isCharFetching } = useByIds(
+    "fav-characters-data",
+    localIds.favCharIds,
+    getSomeCharactersUI
+  );
+  const { data: episodeData, isFetching: isEpFetching } = useByIds(
+    "fav-episodes-data",
+    localIds.favEpisodeIds,
+    getSomeEpisodesUI
+  );
 
   // Normalización de datos para asegurar el renderizado de listas
-  const characters = Array.isArray(charData) ? charData : charData ? [charData] : [];
-  const episodes = Array.isArray(episodeData) ? episodeData : episodeData ? [episodeData] : [];
+  const characters = Array.isArray(charData)
+    ? charData
+    : charData
+    ? [charData]
+    : [];
+  const episodes = Array.isArray(episodeData)
+    ? episodeData
+    : episodeData
+    ? [episodeData]
+    : [];
 
- /** * ESCUCHA DE EVENTOS GLOBALES:
-   * Permite que la lista se actualice si el usuario modifica favoritos 
+  /** * ESCUCHA DE EVENTOS GLOBALES:
+   * Permite que la lista se actualice si el usuario modifica favoritos
    * desde cualquier otro componente de la aplicación.
    */
   useEffect(() => {
     const handleSync = () => {
       setLocalIds({
-        favCharIds: JSON.parse(localStorage.getItem("favCharacters") || "[]").join(","),
-        favEpisodeIds: JSON.parse(localStorage.getItem("favEpisodes") || "[]").join(",")
+        favCharIds: JSON.parse(
+          localStorage.getItem("favCharacters") || "[]"
+        ).join(","),
+        favEpisodeIds: JSON.parse(
+          localStorage.getItem("favEpisodes") || "[]"
+        ).join(","),
       });
     };
 
@@ -50,17 +77,35 @@ export const Favorites = () => {
     return () => window.removeEventListener("storage", handleSync);
   }, []);
 
+  const isRefreshing = isCharFetching || isEpFetching;
+
   // Estado de error/vacío: UX amigable para colecciones vacías
-  if (characters.length === 0 && episodes.length === 0) {
+  if (characters.length === 0 && episodes.length === 0 && !isRefreshing) {
     return <EmptyFavorites />;
   }
 
   return (
     <div className={classes.container}>
       <h1 className={classes.mainTitle}>Tu Colección Intergaláctica</h1>
-      
-      <FavoritesList title="Personajes Favoritos" items={characters} type="characters" />
-      <FavoritesList title="Episodios Guardados" items={episodes} type="episodes" />
+
+      <FavoritesList
+        title="Personajes Favoritos"
+        items={characters}
+        type="characters"
+      />
+      <FavoritesList
+        title="Episodios Guardados"
+        items={episodes}
+        type="episodes"
+      />
+      {activeId && (
+        <Modal onClose={closeModal} title="Characters in Episode">
+          <EpisodeCastContainer
+            episodeId={Number(activeId)}
+            onClose={closeModal}
+          />
+        </Modal>
+      )}
     </div>
   );
 };

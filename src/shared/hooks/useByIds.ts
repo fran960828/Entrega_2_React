@@ -8,8 +8,8 @@ export const useByIds = <T>(
   return useQuery({
     queryKey: [queryKeyPrefix, ids],
     queryFn: () => fetchFn(ids),
-    enabled: ids.length>0,
+    enabled: ids.length > 0,
     staleTime: 1000 * 60 * 10,
-    placeholderData:keepPreviousData
+    placeholderData: ids.length > 0 ? keepPreviousData : undefined,
   });
 };

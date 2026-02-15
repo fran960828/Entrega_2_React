@@ -1,6 +1,6 @@
 /** * HOOK: useFavorites
  * Gestiona la lógica de persistencia de favoritos en LocalStorage.
- * Implementa comunicación reactiva mediante eventos globales para sincronizar 
+ * Implementa comunicación reactiva mediante eventos globales para sincronizar
  * diferentes partes de la UI en tiempo real.
  * * @param {string} storageKey - Clave del LocalStorage ('favCharacters' | 'favEpisodes').
  * @param {number} itemId - ID del elemento a gestionar.
@@ -11,13 +11,11 @@ import { useState, useEffect } from "react";
 export const useFavorites = (storageKey: string, itemId: number) => {
   const [isFavorite, setIsFavorite] = useState(false);
 
-  
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem(storageKey) || "[]");
     setIsFavorite(favorites.some((favId: number) => favId === itemId));
   }, [itemId, storageKey]);
 
-  
   const toggleFavorite = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault();
@@ -36,10 +34,13 @@ export const useFavorites = (storageKey: string, itemId: number) => {
     localStorage.setItem(storageKey, JSON.stringify(newFavorites));
     setIsFavorite(!isFavorite);
 
-    /** * DISPATCH EVENT: Notifica a otros componentes (como FavoritesContainer) 
+    /** * DISPATCH EVENT: Notifica a otros componentes (como FavoritesContainer)
      * que el almacenamiento ha cambiado, forzando su re-renderizado.
      */
     window.dispatchEvent(new Event("storage"));
+    window.dispatchEvent(
+      new CustomEvent("local-storage-update", { detail: { key: storageKey } })
+    );
   };
 
   return { isFavorite, toggleFavorite };

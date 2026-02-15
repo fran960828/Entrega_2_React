@@ -10,7 +10,7 @@ import {Status,Species} from '../models'
 
 interface Props {
   onFilterChange: (changes: { name?: string; status?: Status; species?: Species }) => void;
-  initialValues: { name?: string; status?: string; species?: string };
+  initialValues: { name?: string; status?: Status; species?: Species };
 }
 
 export function CharacterFilter({ onFilterChange, initialValues }: Props) {

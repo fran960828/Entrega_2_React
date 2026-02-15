@@ -12,46 +12,76 @@ import { getCharacterUI } from "../services";
 import { getSomeEpisodesUI } from "../../episodes/services";
 import { useByOneId } from "../../shared/hooks/useByOneId";
 import { useByIds } from "../../shared/hooks/useByIds";
-
+import { useModal } from "../../shared/components/Modal/context";
+import { Modal } from "../../shared/components/Modal/Modal";
+import { EpisodeCastContainer } from "../../episodes/components";
 
 export const CharacterDetail = () => {
+  const { activeId, closeModal } = useModal();
   const { id } = useParams();
   const navigate = useNavigate();
 
   /** * QUERY 1: Obtención del personaje.
    * Se activa automáticamente al detectar el ID en la URL.
    */
-  
-  const { data: character }= useByOneId('character',Number(id),getCharacterUI)
+
+  const { data: character } = useByOneId(
+    "character",
+    Number(id),
+    getCharacterUI
+  );
 
   /** * QUERY 2: Queries Dependientes.
    * Procesa las URLs de episodios del personaje para extraer los IDs.
-   * 'enabled: !!episodeIds' asegura que esta query no se ejecute hasta que 
+   * 'enabled: !!episodeIds' asegura que esta query no se ejecute hasta que
    * la Query 1 haya finalizado con éxito.
    */
-  const episodeIds = character?.episode.map((url: string) => Number(url.split("/").pop())) ?? [];
-  
-  
-  const {data:episodes}=useByIds('character-episodes',episodeIds,getSomeEpisodesUI)
+  const episodeIds =
+    character?.episode.map((url: string) => Number(url.split("/").pop())) ?? [];
+
+  const { data: episodes } = useByIds(
+    "character-episodes",
+    episodeIds,
+    getSomeEpisodesUI
+  );
 
   if (!character) return <p>Personaje no encontrado.</p>;
 
   // Normalización de datos: La API devuelve objeto si es 1 o Array si son varios
-  const episodesArray = Array.isArray(episodes) ? episodes : episodes ? [episodes] : [];
+  const episodesArray = Array.isArray(episodes)
+    ? episodes
+    : episodes
+    ? [episodes]
+    : [];
 
   return (
     <div className={classes.container}>
       {/* Background dinámico: Genera cohesión visual usando la imagen del personaje */}
-      <div className={classes.backgroundBlur} style={{ backgroundImage: `url(${character.image})` }} />
+      <div
+        className={classes.backgroundBlur}
+        style={{ backgroundImage: `url(${character.image})` }}
+      />
 
-      <button onClick={() => navigate(-1)} className={classes.backBtn}>
+      <button
+        onClick={() => navigate("/Characters")}
+        className={classes.backBtn}
+      >
         <ArrowLeft size={20} /> Volver al listado
       </button>
 
       <main className={classes.mainContent}>
         {/* Desglose de responsabilidades en componentes atómicos */}
-        <CharacterDetailHero character={character}/>
-        <CharacterDetailEp episodesArray={episodesArray}/ >
+        <CharacterDetailHero character={character} />
+        <CharacterDetailEp episodesArray={episodesArray} />
+
+        {activeId && (
+          <Modal onClose={closeModal} title="Characters in Episode">
+            <EpisodeCastContainer
+              episodeId={Number(activeId)}
+              onClose={closeModal}
+            />
+          </Modal>
+        )}
       </main>
     </div>
   );

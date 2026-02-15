@@ -24,7 +24,7 @@ export const Episodes = () => {
     page: currentPage,
   });
 
- const handlePageChange = (newPage: number) => {
+  const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
 
     if (newPage > 1) {
@@ -36,11 +36,13 @@ export const Episodes = () => {
     setSearchParams(params, { replace: true });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
+  //if (isLoading) return <p>Loading dimension data...</p>;
   const isResultsEmpty =
-     (isError || (data && data.results.length === 0)||!data);
+    isError || (data && data.results.length === 0) || !data;
 
-  {isResultsEmpty && <p>Sin resultado de episodios</p>}
+  {
+    isResultsEmpty && <p>Sin resultado de episodios</p>;
+  }
 
   return (
     <section className={classes.container}>
@@ -61,11 +63,13 @@ export const Episodes = () => {
         </Modal>
       )}
 
-      <Pagination
-            currentPage={currentPage}
-            totalPages={data!.info.pages}
-            onPageChange={handlePageChange}
-          />
+      {data?.info && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={data.info.pages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </section>
   );
 };
