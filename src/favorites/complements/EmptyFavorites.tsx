@@ -14,7 +14,7 @@ export const EmptyFavorites = () => {
       {/* Iconografía semántica para reforzar el concepto de "vacío" */}
       <Ghost size={80} className={classes.icon} />
       
-      <h2 className={classes.title}>¿Dimensiones vacías?</h2>
+      <h2 className={classes.title} data-cy='cy-fav-title'>¿Dimensiones vacías?</h2>
       
       <p className={classes.text}>
         Parece que tu pistola de portales no ha guardado ninguna ubicación ni personaje todavía.

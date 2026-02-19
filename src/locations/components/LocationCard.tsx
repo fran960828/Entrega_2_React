@@ -6,7 +6,7 @@
 
 import type{ LocationModel } from "../models/locations.model";
 import classes from "./LocationCard.module.css";
-import { ResidentList } from "./LocationResident";
+import { LocationResident } from "./LocationResident";
 export interface Props {
   location: LocationModel;
 }
@@ -51,7 +51,7 @@ export const LocationCard = ({ location }: Props) => {
 
         <div className={classes.residentSection}>
           {location.residents.length > 0 ? (
-            <ResidentList residentUrls={location.residents} />
+            <LocationResident residentUrls={location.residents} />
           ) : (
             <p className={classes.noResidents}>No residents found</p>
           )}

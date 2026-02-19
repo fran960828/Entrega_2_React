@@ -24,7 +24,7 @@ export const CharacterDetailHero:React.FC<{character:Character}> = ({character})
 
           <div className={classes.headerInfo}>
             <h1 className={classes.title}>
-              <span>{character.name}</span>
+              <span data-cy='cy-char-name'>{character.name}</span>
               <button onClick={toggleFavorite} className={classes.favBtn}>
                 <Heart fill={isFavorite ? "#ff4b4b" : "none"} />
               </button>

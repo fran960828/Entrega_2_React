@@ -44,7 +44,6 @@ export const CharacterDetail = () => {
     episodeIds,
     getSomeEpisodesUI
   );
-
   if (!character) return <p>Personaje no encontrado.</p>;
 
   // Normalización de datos: La API devuelve objeto si es 1 o Array si son varios
@@ -53,7 +52,6 @@ export const CharacterDetail = () => {
     : episodes
     ? [episodes]
     : [];
-
   return (
     <div className={classes.container}>
       {/* Background dinámico: Genera cohesión visual usando la imagen del personaje */}
@@ -65,6 +63,7 @@ export const CharacterDetail = () => {
       <button
         onClick={() => navigate("/Characters")}
         className={classes.backBtn}
+        data-cy='cy-btn-volver'
       >
         <ArrowLeft size={20} /> Volver al listado
       </button>

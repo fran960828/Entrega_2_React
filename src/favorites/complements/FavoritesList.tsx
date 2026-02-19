@@ -24,7 +24,7 @@ export const FavoritesList = ({ title, items, type }: Props) => {
 
   return (
     <section className={classes.section}>
-      <h2 className={classes.sectionTitle}>{title}</h2>
+      <h2 className={classes.sectionTitle} data-cy='cy-title-fav'>{title}</h2>
       {/* LAYOUT DINÁMICO: 
           - Grid para personajes (tarjetas visuales).
           - List para episodios (formato horizontal).

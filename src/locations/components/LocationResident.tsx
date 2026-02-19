@@ -1,4 +1,4 @@
-/** * COMPONENT: ResidentList
+/** * COMPONENT: LocationResident
  * Visualizador de avatares de residentes por ubicación.
  * Implementa una estrategia de carga parcial (top 5) para optimizar el 
  * ancho de banda y mejorar el rendimiento de renderizado en listas largas.
@@ -12,7 +12,7 @@ interface Props {
   residentUrls: string[];
 }
 
-export const ResidentList = ({ residentUrls }: Props) => {
+export const LocationResident = ({ residentUrls }: Props) => {
   /** * OPTIMIZACIÓN DE DATOS: 
    * Limitamos el procesamiento a los primeros 5 residentes para mantener
    * la interfaz limpia y las peticiones a la API bajo control.

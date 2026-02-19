@@ -28,11 +28,12 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Props) => 
 
       {/* Indicador visual de progreso */}
       <div className={classes.pageInfo}>
-        <span className={classes.currentPage}>{currentPage}</span> / {totalPages}
+        <span className={classes.currentPage} data-cy='cy-currentPage'>{currentPage}</span> / {totalPages}
       </div>
 
       {/* Botón de avance: se deshabilita al alcanzar el límite de páginas de la API */}
       <button 
+        data-cy='cy-btn-next'
         className={classes.navButton}
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage >= totalPages}

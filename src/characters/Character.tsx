@@ -68,7 +68,7 @@ export const Character = () => {
   
   const isResultsEmpty =
      (isError || (data && data.results.length === 0));
-
+ 
   return (
     <section className={classes.container}>
       <div className={classes.filter}>
@@ -90,7 +90,7 @@ export const Character = () => {
 
       {!isResultsEmpty && data && (
         <>
-          <div className={classes.grid}>
+          <div className={classes.grid} data-cy='cy-grid-char'>
             {data.results.map((i) => (
               <CharacterCard key={i.id} character={i} />
             ))}

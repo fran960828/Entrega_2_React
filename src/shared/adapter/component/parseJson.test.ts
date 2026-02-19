@@ -43,6 +43,6 @@ describe('parseJson()', () => {
     const result =()=> parseJson(mockResponse);
 
     // Assert
-    expect(result).rejects.toThrow();
+    await expect(result).rejects.toThrow();
   });
 });
