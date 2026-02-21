@@ -31,9 +31,13 @@ export const CharacterCard = ({ character }: Props) => {
   const statusClass = statusStyles[character.status] || classes.unknown;
 
   return (
-    <article className={classes.card} >
+    <article className={classes.card}>
       {/* Acción secundaria: Favoritos (Detiene propagación para no activar el Link) */}
-      <button className={classes.favoriteBtn} onClick={toggleFavorite}>
+      <button
+        className={classes.favoriteBtn}
+        onClick={toggleFavorite}
+        data-cy="cy-btn-fav"
+      >
         <Heart
           size={18}
           className={isFavorite ? classes.heartFilled : classes.heartEmpty}
@@ -41,7 +45,11 @@ export const CharacterCard = ({ character }: Props) => {
       </button>
 
       {/* Acción principal: Navegación al detalle del personaje */}
-      <Link to={`/characters/${character.id}`} className={classes.cardLink} data-cy='cy-char-card'>
+      <Link
+        to={`/characters/${character.id}`}
+        className={classes.cardLink}
+        data-cy="cy-char-card"
+      >
         <div className={classes.imageContainer}>
           <img
             src={character.image}

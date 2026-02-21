@@ -4,7 +4,7 @@ import { LocationCard } from "./LocationCard";
 
 // 1. Mock de ResidentList para aislar el test de la card
 vi.mock("./LocationResident", () => ({
-  ResidentList: ({ residentUrls }: { residentUrls: string[] }) => (
+  LocationResident: ({ residentUrls }: { residentUrls: string[] }) => (
     <div data-testid="resident-list">Count: {residentUrls.length}</div>
   ),
 }));
@@ -17,7 +17,7 @@ describe("LocationCard Component", () => {
     dimension: "Dimension C-137",
     residents: ["url1", "url2"],
     url: "",
-    created: ""
+    created: "",
   };
 
   it("debe mostrar la información básica de la localización", () => {
@@ -30,7 +30,7 @@ describe("LocationCard Component", () => {
 
   it("debe cargar la imagen correcta basada en el tipo (Planet)", () => {
     render(<LocationCard location={mockLocation} />);
-    
+
     const img = screen.getByRole("img");
     expect(img).toHaveAttribute("src", "/planet.png");
     expect(img).toHaveAttribute("alt", "Planet");
@@ -39,14 +39,14 @@ describe("LocationCard Component", () => {
   it("debe usar la imagen por defecto si el tipo es desconocido", () => {
     const unknownLocation = { ...mockLocation, type: "Unknown Type" };
     render(<LocationCard location={unknownLocation} />);
-    
+
     const img = screen.getByRole("img");
     expect(img).toHaveAttribute("src", "/default.png");
   });
 
   it("debe renderizar la lista de residentes cuando existen", () => {
     render(<LocationCard location={mockLocation} />);
-    
+
     expect(screen.getByTestId("resident-list")).toBeInTheDocument();
     expect(screen.getByText("Count: 2")).toBeInTheDocument();
   });
@@ -54,7 +54,7 @@ describe("LocationCard Component", () => {
   it("debe mostrar el mensaje de 'No residents found' cuando la lista está vacía", () => {
     const noResidentsLocation = { ...mockLocation, residents: [] };
     render(<LocationCard location={noResidentsLocation} />);
-    
+
     expect(screen.getByText(/No residents found/i)).toBeInTheDocument();
     expect(screen.queryByTestId("resident-list")).not.toBeInTheDocument();
   });

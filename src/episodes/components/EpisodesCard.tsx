@@ -17,7 +17,9 @@ export const EpisodesCard = ({ episode }: { episode: Episode }) => {
       <div className={classes.episodeCode}>{episode.episode}</div>
 
       <div className={classes.mainInfo}>
-        <h3 className={classes.title}>{episode.name}</h3>
+        <h3 className={classes.title} data-cy="cy-ep-name">
+          {episode.name}
+        </h3>
         <div className={classes.airDate}>
           <Calendar size={14} />
           <span>{episode.air_date}</span>

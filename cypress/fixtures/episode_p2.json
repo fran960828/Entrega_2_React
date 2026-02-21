@@ -1,0 +1,21 @@
+{
+  "info": {
+    "count": 51,
+    "pages": 3,
+    "next": "https://rickandmortyapi.com/api/episode?page=3",
+    "prev": "https://rickandmortyapi.com/api/episode?page=1"
+  },
+  "results": [
+    {
+      "id": 3,
+      "name": "Anatomy Park",
+      "air_date": "December 16, 2013",
+      "episode": "S01E03",
+      "characters": [
+        "https://rickandmortyapi.com/api/character/1",
+        "https://rickandmortyapi.com/api/character/12"
+      ],
+      "url": "https://rickandmortyapi.com/api/episode/3"
+    }
+  ]
+}
