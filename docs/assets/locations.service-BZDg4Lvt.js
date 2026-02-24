@@ -1,0 +1,1 @@
+import{u as e,h as s}from"./generic.adapter-CkLUpruH.js";const c={getAllLocations:async t=>{const a=t.page&&t.page>0?t.page:1,o=new URLSearchParams;o.append("page",a.toString());const n=`${e.locations}/?${o.toString()}`;return await s.get(n)}},g=t=>async a=>t.getAllLocations(a),r=g(c);export{r as g};

@@ -1,6 +1,6 @@
 
 import { describe, it, expect } from 'vitest';
-import { ParseJson } from './parseJson';
+import { ParseJson } from './ParseJson';
 
 describe('ParseJson()', () => {
   it('Debería devolver el objeto parseado cuando se nos proporcione un JSON valido', async () => {

@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: './',
   test: {
     globals: true,           // Permite usar 'describe', 'it', 'expect' sin importarlos
     environment: 'happy-dom', // Entorno de navegador ligero

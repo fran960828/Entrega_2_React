@@ -1,0 +1,1 @@
+import{q as t}from"./index-M5nO7IVW.js";import{a}from"./character.service-CJfZUINM.js";import"./generic.adapter-CkLUpruH.js";function i({params:e}){const r=e.id;return t.ensureQueryData({queryKey:["character",r],queryFn:()=>a(Number(r))})}export{i as characterIdLoader};

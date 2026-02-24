@@ -1,8 +1,8 @@
 /** * INFRASTRUCTURE: HTTP Client & API Routes
  * Adaptador base genérico para peticiones externas y definición de endpoints.
  */
-import { ParseJson} from "./component";
 
+import { ParseJson } from "./component";
 
 export const httpClient = {
   // Refactorización sugerida en generic.adapter.ts
