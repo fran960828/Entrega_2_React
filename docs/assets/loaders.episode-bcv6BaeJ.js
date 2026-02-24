@@ -1,1 +1,0 @@
-import{a as o}from"./episodes.service-CJsxI7ro.js";import{c as e}from"./loader.Generic--A2rP2-F.js";import"./generic.adapter-CkLUpruH.js";import"./index-CSjuiAlp.js";const a=e("episodes",o);export{a as episodesLoader};

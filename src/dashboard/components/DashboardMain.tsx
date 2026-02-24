@@ -13,7 +13,7 @@ export function DashboardMain(){
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
-          src="/logo.png" 
+          src={`${import.meta.env.BASE_URL}logo.png`}
           alt="Rick and Morty Logo" 
           className={classes.logo}
         />
