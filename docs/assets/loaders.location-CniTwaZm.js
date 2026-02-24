@@ -1,0 +1,1 @@
+import{g as o}from"./locations.service-BZDg4Lvt.js";import{c as t}from"./loader.Generic--A2rP2-F.js";import"./generic.adapter-CkLUpruH.js";import"./index-CSjuiAlp.js";const e=t("locations",o);export{e as locationsLoader};

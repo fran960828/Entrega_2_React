@@ -18,12 +18,12 @@ export const LocationCard = ({ location }: Props) => {
   const getPlaceholderImage = (type: string) => {
     const typeKey = type.toLowerCase();
     
-    if (typeKey.includes("planet")) return "/planet.png";
-    if (typeKey.includes("space station")) return "/space_station.png";
-    if (typeKey.includes("cluster")) return "/cluster.png";
-    if (typeKey.includes("dream")) return "/dream.png";
+    if (typeKey.includes("planet")) return `${import.meta.env.BASE_URL}planet.png`;
+    if (typeKey.includes("space station")) return `${import.meta.env.BASE_URL}space_station.png`;
+    if (typeKey.includes("cluster")) return `${import.meta.env.BASE_URL}cluster.png`;
+    if (typeKey.includes("dream")) return `${import.meta.env.BASE_URL}dream.png`;
     
-    return "/default.png"; // Fallback para tipos desconocidos o vacíos
+    return `${import.meta.env.BASE_URL}default.png`; // Fallback para tipos desconocidos o vacíos
   };
 
   return (

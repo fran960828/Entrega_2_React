@@ -16,7 +16,7 @@ export function HeaderLogo({ path, image }: Props) {
   return (
     <Link to={path} className={classes.logoWrapper}>
       <img 
-        src={image} 
+        src={`${import.meta.env.BASE_URL}${image}`} 
         alt="Rick and Morty Explorer Logo" 
         className={classes.logoImage} 
       />

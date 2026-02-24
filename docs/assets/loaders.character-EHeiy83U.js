@@ -1,0 +1,1 @@
+import{c as r}from"./loader.Generic--A2rP2-F.js";import{g as a}from"./character.service-CJfZUINM.js";import"./index-CSjuiAlp.js";import"./generic.adapter-CkLUpruH.js";const i=r("characters",a);export{i as charactersLoader};

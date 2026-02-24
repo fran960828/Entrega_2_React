@@ -57,5 +57,11 @@ export const router = createBrowserRouter([
         },
       },
     ],
+    
   },
-]);
+
+],
+{
+    // Esto es lo que soluciona el ErrorBoundary al cargar en GitHub Pages
+    basename: "/Entrega_2_React",
+  });

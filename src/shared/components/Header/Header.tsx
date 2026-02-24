@@ -20,7 +20,7 @@ export function Header() {
   return (
     <header className={classes.header}>
       <div className={classes.container}>
-        <HeaderLogo path="/" image="/logo.png" />
+        <HeaderLogo path="/" image="logo.png" />
 
         {/* Botón interactivo: cambia el icono según el estado 'isOpen' */}
         <button className={classes.burger} onClick={handleMenu}>
