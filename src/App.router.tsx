@@ -9,8 +9,8 @@ import { Dashboard } from "./dashboard/Dashboard";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
-    errorElement: <ErrorBoundary />,
+    element: <RootLayout/>,
+    errorElement: <ErrorBoundary/>,
     children: [
       {
         index: true,
