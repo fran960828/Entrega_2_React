@@ -1,7 +1,7 @@
 /** * INFRASTRUCTURE: HTTP Client & API Routes
  * Adaptador base genérico para peticiones externas y definición de endpoints.
  */
-import { parseJson } from "./component/parseJson";
+import { ParseJson} from "./component";
 
 
 export const httpClient = {
@@ -15,7 +15,7 @@ get: async <T>(url: string): Promise<T> => {
         message: `Error from the Citadel: ${res.statusText}`,
       };
     }
-    return parseJson<T>(res);
+    return ParseJson<T>(res);
   } catch (error: any) {
     // Si ya es nuestro objeto de error, lo volvemos a lanzar
     if (error.status) throw error;

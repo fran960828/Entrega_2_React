@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { MemoryRouter, useSearchParams } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { ModalProvider, useModal } from "./ModalContext";
 
 // Componente "Dummy" para probar el hook

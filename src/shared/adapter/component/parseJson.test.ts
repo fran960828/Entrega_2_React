@@ -1,8 +1,8 @@
 
 import { describe, it, expect } from 'vitest';
-import { parseJson } from './parseJson';
+import { ParseJson } from './parseJson';
 
-describe('parseJson()', () => {
+describe('ParseJson()', () => {
   it('Debería devolver el objeto parseado cuando se nos proporcione un JSON valido', async () => {
     // Arrange
     const mockData = { id: 1 , name:'Rick Sanchez'}
@@ -12,7 +12,7 @@ describe('parseJson()', () => {
 
 
     // Act
-    const result = await parseJson(mockResponse);
+    const result = await ParseJson(mockResponse);
 
     // Assert
     expect(result).toEqual(mockData);
@@ -26,7 +26,7 @@ describe('parseJson()', () => {
 
 
     // Act
-    const result = await parseJson(mockResponse);
+    const result = await ParseJson(mockResponse);
 
     // Assert
     expect(result).toBeFalsy();
@@ -40,7 +40,7 @@ describe('parseJson()', () => {
 
 
     // Act
-    const result =()=> parseJson(mockResponse);
+    const result =()=> ParseJson(mockResponse);
 
     // Assert
     await expect(result).rejects.toThrow();
